@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "ConsoleApp1": {
+      "commandName": "ConsoleApp1",
+      "sdkVersion": "dnx-coreclr-win-x64.1.0.0-beta7"
+    }
+  }
+}

@@ -1,0 +1,27 @@
+﻿{
+  "version": "1.0.0-*",
+  "description": "CoreProfilerDev Console Application",
+  "authors": [ "teddy.ma" ],
+  "tags": [ "" ],
+  "projectUrl": "",
+  "licenseUrl": "",
+  "compilationOptions": {
+    "emitEntryPoint": true
+  },
+  "dependencies": {
+    "Microsoft.Extensions.Logging": "1.0.0-*",
+    "Microsoft.Extensions.Configuration.Abstractions": "1.0.0-*",
+    "Microsoft.Extensions.Configuration": "1.0.0-*",
+    "Microsoft.Extensions.Configuration.Json": "1.0.0-*",
+    "Microsoft.Extensions.Logging.Console": "1.0.0-*",
+    "Microsoft.Extensions.Configuration.Binder": "1.0.0-*",
+    "Microsoft.NETCore.App": {
+      "type": "platform",
+      "version": "1.0.0-rc2-3002498"
+    }
+  },
+  "frameworks": {
+    "dnxcore50": {
+    }
+  }
+}
