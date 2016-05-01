@@ -15,6 +15,8 @@ namespace EF.Diagnostics.Profiling
         protected override void Save(ITimingSession session)
         {
             Queue.Enqueue(session);
+
+            Console.WriteLine("saved - " + session.Name);
         }
     }
 
@@ -22,20 +24,27 @@ namespace EF.Diagnostics.Profiling
     {
         public static void Main(string[] args)
         {
-            //Console.Read();
+            Console.Read();
 
-            ProfilingSession.ProfilingStorage = new NoOperationProfilingStorage();
+            ProfilingSession.ProfilingStorage = new TestStorage();
 
             Parallel.For(0, 10, i =>
             {
                 Run();
+            });
 
+            Parallel.For(0, 10, i =>
+            {
                 Task.Factory.StartNew(() =>
                 {
                     if (ProfilingSession.Current != null)
                         Console.WriteLine("something wrong");
                 }).Wait();
             });
+
+            GC.Collect();
+
+            Console.ReadKey();
         }
 
         private static void Run()
@@ -77,7 +86,7 @@ namespace EF.Diagnostics.Profiling
                 Console.WriteLine("");
             }
 
-            ProfilingSession.Stop();
+            //ProfilingSession.Stop();
         }
     }
 }

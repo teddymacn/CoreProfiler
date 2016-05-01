@@ -159,6 +159,11 @@ namespace EF.Diagnostics.Profiling
             _profiler = profiler;
         }
 
+        ~ProfilingSession()
+        {
+            Stop();
+        }
+
         #endregion
 
         #region Public Methods
