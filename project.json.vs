@@ -31,6 +31,7 @@
     "Microsoft.Extensions.Configuration": "1.0.0-rc1-final",
     "Microsoft.Extensions.Configuration.Json": "1.0.0-rc1-final",
     "Microsoft.Extensions.Logging.Console": "1.0.0-rc1-final",
-    "Microsoft.Extensions.Configuration.Binder": "1.0.0-rc1-final"
+    "Microsoft.Extensions.Configuration.Binder": "1.0.0-rc1-final",
+    "System.Threading.Tasks.Parallel": "4.0.1-beta-23516"
   }
 }
