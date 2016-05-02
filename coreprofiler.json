@@ -1,0 +1,17 @@
+﻿{
+  "provider": "",
+  "circularBufferSize": 200,
+  "storage": "EF.Diagnostics.Profiling.TestStorage, CoreProfilerDev",
+  "filters": [
+    {
+      "key": "contains1",
+      "value": "test1",
+      "type": "EF.Diagnostics.Profiling.ProfilingFilters.NameContainsProfilingFilter, CoreProfilerDev"
+    },
+    {
+      "key": "regex1",
+      "value": "test1",
+      "type": "EF.Diagnostics.Profiling.ProfilingFilters.RegexProfilingFilter, CoreProfilerDev"
+    }
+  ]
+}

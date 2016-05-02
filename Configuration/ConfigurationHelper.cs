@@ -19,15 +19,7 @@ namespace EF.Diagnostics.Profiling.Configuration
         public static IConfiguration GetConfiguration()
         {
             return new ConfigurationBuilder()
-               .Add(new MemoryConfigurationProvider(new Dictionary<string, string>
-               {
-                   ["provider"] = "",
-                   ["circularBufferSize"] = "100",
-                   //["storage"] = "",
-                   //["logProvider"] = "",
-                   //["filters"] = ""
-               }))
-               //.AddJsonFile("coreprofiler.json", true)
+               .AddJsonFile("coreprofiler.json", true)
                .Build();
         }
     }

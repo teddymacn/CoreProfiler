@@ -6,7 +6,9 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using Microsoft.Extensions.Configuration;
+using System.Reflection;
 
 namespace EF.Diagnostics.Profiling
 {
@@ -159,11 +161,6 @@ namespace EF.Diagnostics.Profiling
             _profiler = profiler;
         }
 
-        ~ProfilingSession()
-        {
-            Stop();
-        }
-
         #endregion
 
         #region Public Methods
@@ -274,8 +271,44 @@ namespace EF.Diagnostics.Profiling
                     CircularBuffer = new CircularBuffer<ITimingSession>(circularBufferSize);
                 }
 
-                // TODO: implement load filters
-                //...
+                // load filters
+                var filtersSection = config.Get<FilterConfigurationItem[]>("filters");
+                if (filtersSection != null)
+                {
+                    foreach (var filter in filtersSection)
+                    {
+                        if (string.IsNullOrWhiteSpace(filter.Type) ||
+                        string.Equals(filter.Type, "contain", StringComparison.OrdinalIgnoreCase))
+                        {
+                            ProfilingFilters.Add(new NameContainsProfilingFilter(filter.Value));
+                        }
+                        else if (string.Equals(filter.Type, "regex", StringComparison.OrdinalIgnoreCase))
+                        {
+                            ProfilingFilters.Add(new RegexProfilingFilter(new Regex(filter.Value, RegexOptions.Compiled | RegexOptions.IgnoreCase)));
+                        }
+                        else if (string.Equals(filter.Type, "disable", StringComparison.OrdinalIgnoreCase))
+                        {
+                            ProfilingFilters.Add(new DisableProfilingFilter());
+                        }
+                        else
+                        {
+                            var filterType = Type.GetType(filter.Type, true);
+                            if (!typeof(IProfilingFilter).IsAssignableFrom(filterType))
+                            {
+                                throw new Exception("Invalid type name: " + filter.Type);
+                            }
+
+                            try
+                            {
+                                ProfilingFilters.Add((IProfilingFilter)Activator.CreateInstance(filterType, new object[] { filter.Value }));
+                            }
+                            catch (Exception ex)
+                            {
+                                throw new Exception("Invalid type name: " + filter.Type, ex);
+                            }
+                        }
+                    }
+                }
 
                 return;
             }

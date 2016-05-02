@@ -28,21 +28,7 @@ namespace EF.Diagnostics.Profiling
 
             ProfilingSession.ProfilingStorage = new TestStorage();
 
-            Parallel.For(0, 10, i =>
-            {
-                Run();
-            });
-
-            Parallel.For(0, 10, i =>
-            {
-                Task.Factory.StartNew(() =>
-                {
-                    if (ProfilingSession.Current != null)
-                        Console.WriteLine("something wrong");
-                }).Wait();
-            });
-
-            GC.Collect();
+            Run();
 
             Console.ReadKey();
         }
@@ -76,17 +62,7 @@ namespace EF.Diagnostics.Profiling
                 }
             }
 
-            lock (typeof (TestStorage))
-            {
-                Console.WriteLine(ProfilingSession.Current.Profiler.GetTimingSession().Name);
-                foreach (var timing in ProfilingSession.Current.Profiler.GetTimingSession().Timings)
-                {
-                    Console.WriteLine(timing.Name);
-                }
-                Console.WriteLine("");
-            }
-
-            //ProfilingSession.Stop();
+            ProfilingSession.Stop();
         }
     }
 }
