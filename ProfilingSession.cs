@@ -250,6 +250,31 @@ namespace EF.Diagnostics.Profiling
             var config = ConfigurationHelper.GetConfiguration();
             if (config == null) return;
 
+            var logProviderName = config.GetSection("logProvider").Get<string>();
+            if (!string.IsNullOrEmpty(logProviderName))
+            {
+                var logProviderType = Type.GetType(logProviderName, true);
+                if (logProviderType != null)
+                {
+                    ILoggerProvider logProvider;
+                    if (logProviderType.GetConstructor(new Type[0]) == null)
+                    {
+                        logProvider = Activator.CreateInstance(logProviderType, new object[] { null }) as ILoggerProvider;
+                    }
+                    else
+                    {
+                        logProvider = Activator.CreateInstance(logProviderType) as ILoggerProvider;
+                    }
+
+                    if (logProvider == null)
+                    {
+                        throw new InvalidOperationException("Invalid log provider: " + logProviderName);
+                    }
+
+                    ConfigurationHelper.LogFactory.AddProvider(logProvider);
+                }
+            }
+
             var providerName = config.GetSection("provider").Get<string>();
             if (string.IsNullOrEmpty(providerName))
             {

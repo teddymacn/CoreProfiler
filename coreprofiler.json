@@ -1,4 +1,5 @@
 ﻿{
+  "logProvider": "Serilog.Extensions.Logging.SerilogLoggerProvider, Serilog.Extensions.Logging",
   "provider": "",
   "circularBufferSize": 200,
   "storage": "EF.Diagnostics.Profiling.TestStorage, CoreProfilerDev",

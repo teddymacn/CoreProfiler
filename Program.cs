@@ -1,22 +1,25 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Data.Common;
-using System.Linq;
 using System.Threading.Tasks;
 using System.Threading;
 using EF.Diagnostics.Profiling.Data;
-using EF.Diagnostics.Profiling.Storages;
+using EF.Diagnostics.Profiling.Storage.Json;
 using EF.Diagnostics.Profiling.Timings;
 using Microsoft.Data.Sqlite;
+using Serilog;
+using Serilog.Events;
 
 namespace EF.Diagnostics.Profiling
 {
-    public class TestStorage : ProfilingStorageBase
+    public class TestStorage : JsonProfilingStorage
     {
         public static ConcurrentQueue<ITimingSession> Queue = new ConcurrentQueue<ITimingSession>();
 
         protected override void Save(ITimingSession session)
         {
+            base.Save(session);
+
             Queue.Enqueue(session);
 
             Console.WriteLine("saved - " + session.Name);
@@ -27,7 +30,11 @@ namespace EF.Diagnostics.Profiling
     {
         public static void Main(string[] args)
         {
-            Console.Read();
+            Console.ReadKey();
+
+            Log.Logger = new LoggerConfiguration()
+                .WriteTo.LiterateConsole(LogEventLevel.Information, "{Message}{NewLine}")
+                .CreateLogger();
 
             ProfilingSession.ProfilingStorage = new TestStorage();
 
