@@ -11,7 +11,7 @@
     {
       "key": "regex1",
       "value": "test1",
-      "type": "EF.Diagnostics.Profiling.ProfilingFilters.RegexProfilingFilter, CoreProfilerDev"
+      "type": "regex"
     }
   ]
 }

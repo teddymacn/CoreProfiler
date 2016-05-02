@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Concurrent;
+using System.Data.Common;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Threading;
+using EF.Diagnostics.Profiling.Data;
 using EF.Diagnostics.Profiling.Storages;
 using EF.Diagnostics.Profiling.Timings;
+using Microsoft.Data.Sqlite;
 
 namespace EF.Diagnostics.Profiling
 {
@@ -45,7 +48,7 @@ namespace EF.Diagnostics.Profiling
             using (ProfilingSession.Current.Step(ProfilingSession.Current.Profiler.GetTimingSession().Name + " - step 2"))
             {
 
-                Task.Factory.StartNew(() =>
+                Task.Factory.StartNew(async () =>
                 {
                     using (ProfilingSession.Current.Step(ProfilingSession.Current.Profiler.GetTimingSession().Name + " - step 3"))
                     {
@@ -53,6 +56,21 @@ namespace EF.Diagnostics.Profiling
                             Console.WriteLine("profiling ok");
 
                         Console.WriteLine("Hello Async");
+
+                        using (var conn = GetConnection())
+                        using (var cmd = conn.CreateCommand())
+                        {
+                            await conn.OpenAsync();
+
+                            cmd.CommandText = "select * from country";
+                            using (var rdr = await cmd.ExecuteReaderAsync())
+                            {
+                                while (await rdr.ReadAsync())
+                                {
+                                    Console.WriteLine(rdr.GetString(0));
+                                }
+                            }
+                        }
                     }
                 }).Wait();
 
@@ -63,6 +81,11 @@ namespace EF.Diagnostics.Profiling
             }
 
             ProfilingSession.Stop();
+        }
+
+        private static DbConnection GetConnection()
+        {
+            return new ProfiledDbConnection(new SqliteConnection(@"Data Source=D:\git\CoreProfilerDev\demo.sqlite;"), new DbProfiler(ProfilingSession.Current.Profiler));
         }
     }
 }
