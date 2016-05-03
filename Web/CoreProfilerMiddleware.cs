@@ -300,7 +300,7 @@ namespace EF.Diagnostics.Profiling.Web
             {
                 await _next.Invoke(context);
             }
-            catch (System.Exception ex)
+            catch (System.Exception)
             {
                 // stop and save profiling results on error
                 using (ProfilingSession.Current.Step("Stop on Error")) { }
