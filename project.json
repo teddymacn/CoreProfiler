@@ -1,26 +1,26 @@
 ﻿{
-  "version": "1.0.0-beta-20160503-7",
+  "version": "1.0.0-beta-20160503-9",
   "description": "CoreProfiler - A .NET Core Profiling Library",
   "authors": [ "teddy.ma" ],
   "compilationOptions": {
     "emitEntryPoint": false
   },
   "dependencies": {
-    "Microsoft.Extensions.Logging": "1.0.0-*",
-    "Microsoft.Extensions.Configuration.Abstractions": "1.0.0-*",
-    "Microsoft.Extensions.Configuration": "1.0.0-*",
-    "Microsoft.Extensions.Configuration.Json": "1.0.0-*",
-    "Microsoft.Extensions.Configuration.Binder": "1.0.0-*",
-    "Microsoft.AspNetCore.Server.Kestrel": "1.0.0-*",
-    "Microsoft.CSharp": "4.0.1-*",
-    "System.Collections": "4.0.11-*",
-    "System.Linq": "4.1.0-*",
-    "System.Threading": "4.0.11-*",
-    "runtime.any.System.Collections": "4.0.11-*",
-    "System.Text.RegularExpressions": "4.1.0-*",
-    "System.Threading.Thread": "4.0.0-*",
-    "System.Threading.Tasks.Parallel": "4.0.1-*",
-    "System.Data.Common": "4.0.1-*"
+    "Microsoft.Extensions.Logging": "1.0.0-rc3-20765",
+    "Microsoft.Extensions.Configuration.Abstractions": "1.0.0-rc3-20765",
+    "Microsoft.Extensions.Configuration": "1.0.0-rc3-20765",
+    "Microsoft.Extensions.Configuration.Json": "1.0.0-rc3-20765",
+    "Microsoft.Extensions.Configuration.Binder": "1.0.0-rc3-20765",
+    "Microsoft.AspNetCore.Server.Kestrel": "1.0.0-rc3-20765",
+    "Microsoft.CSharp": "4.0.1-rc3-24102-00",
+    "System.Collections": "4.0.11-rc3-24102-00",
+    "System.Linq": "4.1.0-rc3-24102-00",
+    "System.Threading": "4.0.11-rc3-24102-00",
+    "runtime.any.System.Collections": "4.0.11-rc3-24102-00",
+    "System.Text.RegularExpressions": "4.1.0-rc3-24102-00",
+    "System.Threading.Thread": "4.0.0-rc3-24102-00",
+    "System.Threading.Tasks.Parallel": "4.0.1-rc3-24102-00",
+    "System.Data.Common": "4.0.1-rc3-24102-00"
   },
   "buildOptions":{
     "embed": {
@@ -37,7 +37,6 @@
     "licenseUrl": "https://mit-license.org/"
   },
   "frameworks": {
-    "netcore50": { },
     "dnxcore50": { }
   }
 }

@@ -12,7 +12,7 @@ namespace CoreProfiler.Data
     public class ProfiledDbConnection : DbConnection
     {
         private readonly DbConnection _connection;
-        private readonly IDbProfiler _dbProfiler;
+        private readonly Func<IDbProfiler> _getDbProfiler;
 
         #region Constructors
 
@@ -22,15 +22,25 @@ namespace CoreProfiler.Data
         /// <param name="connection">The <see cref="DbConnection"/> to be profiled.</param>
         /// <param name="dbProfiler">The <see cref="IDbProfiler"/>.</param>
         public ProfiledDbConnection(DbConnection connection, IDbProfiler dbProfiler)
+            : this(connection, () => dbProfiler)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a <see cref="ProfiledDbConnection"/>.
+        /// </summary>
+        /// <param name="connection">The <see cref="DbConnection"/> to be profiled.</param>
+        /// <param name="dbProfiler">The <see cref="IDbProfiler"/>.</param>
+        public ProfiledDbConnection(DbConnection connection, Func<IDbProfiler> getDbProfiler)
         {
             if (connection == null)
             {
                 throw new ArgumentNullException("connection");
             }
 
-            if (dbProfiler == null)
+            if (getDbProfiler == null)
             {
-                throw new ArgumentNullException("dbProfiler");
+                throw new ArgumentNullException("getDbProfiler");
             }
             
             _connection = connection;
@@ -38,7 +48,7 @@ namespace CoreProfiler.Data
             {
                 _connection.StateChange += StateChangeHandler;
             }
-            _dbProfiler = dbProfiler;
+            _getDbProfiler = getDbProfiler;
         }
 
         #endregion
@@ -59,7 +69,10 @@ namespace CoreProfiler.Data
                 return profiledTransaction;
             }
 
-            return new ProfiledDbTransaction(transaction, _dbProfiler);
+            var dbProfiler = _getDbProfiler();
+            if (dbProfiler == null) return transaction;
+            
+            return new ProfiledDbTransaction(transaction, dbProfiler);
         }
 
         /// <summary>
@@ -106,8 +119,11 @@ namespace CoreProfiler.Data
             {
                 return profiledCommand;
             }
+            
+            var dbProfiler = _getDbProfiler();
+            if (dbProfiler == null) return command;
 
-            return new ProfiledDbCommand(command, _dbProfiler);
+            return new ProfiledDbCommand(command, dbProfiler);
         }
 
         /// <summary>
