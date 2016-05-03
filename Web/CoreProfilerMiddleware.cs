@@ -78,7 +78,7 @@ namespace CoreProfiler.Web
             if (path.EndsWith("/coreprofiler-resources/icons"))
             {
                 context.Response.ContentType = "image/png";
-                var iconsStream = GetType().GetTypeInfo().Assembly.GetManifestResourceStream(GetType().GetTypeInfo().Assembly.GetName().Name + ".Web.icons.png");
+                var iconsStream = GetType().GetTypeInfo().Assembly.GetManifestResourceStream("Web.icons.png");
                 using (var br = new BinaryReader(iconsStream))
                 {
                     await context.Response.Body.WriteAsync(br.ReadBytes((int)iconsStream.Length), 0, (int)iconsStream.Length);
@@ -89,7 +89,7 @@ namespace CoreProfiler.Web
             if (path.EndsWith("/coreprofiler-resources/css"))
             {
                 context.Response.ContentType = "text/css";
-                var cssStream = GetType().GetTypeInfo().Assembly.GetManifestResourceStream(GetType().GetTypeInfo().Assembly.GetName().Name + ".Web.treeview_timeline.css");
+                var cssStream = GetType().GetTypeInfo().Assembly.GetManifestResourceStream("Web.treeview_timeline.css");
                 using (var sr = new StreamReader(cssStream))
                 {
                     await context.Response.WriteAsync(sr.ReadToEnd());
