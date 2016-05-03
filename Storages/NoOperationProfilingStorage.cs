@@ -1,6 +1,6 @@
-﻿using EF.Diagnostics.Profiling.Timings;
+﻿using CoreProfiler.Timings;
 
-namespace EF.Diagnostics.Profiling.Storages
+namespace CoreProfiler.Storages
 {
     /// <summary>
     /// A <see cref="IProfilingStorage"/> implementation which performs no operation.

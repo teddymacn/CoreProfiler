@@ -1,6 +1,6 @@
 ﻿{
-  "version": "1.0.0-beta-20160503-1",
-  "description": "coreprofiler - .netcore profiling library",
+  "version": "1.0.0-beta-20160503-6",
+  "description": "CoreProfiler - A .NET Core Profiling Library",
   "authors": [ "teddy.ma" ],
   "compilationOptions": {
     "emitEntryPoint": false
@@ -37,6 +37,7 @@
     "licenseUrl": "https://mit-license.org/"
   },
   "frameworks": {
-    "netcore50": { }
+    "netcore50": { },
+    "dnxcore50": { }
   }
 }

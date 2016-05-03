@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Configuration;
 
-namespace EF.Diagnostics.Profiling.Configuration
+namespace CoreProfiler.Configuration
 {
     public static class ConfigurationHelper
     {

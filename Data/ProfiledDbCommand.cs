@@ -4,9 +4,9 @@ using System.Data;
 using System.Data.Common;
 using System.Threading;
 using System.Threading.Tasks;
-using EF.Diagnostics.Profiling.Timings;
+using CoreProfiler.Timings;
 
-namespace EF.Diagnostics.Profiling.Data
+namespace CoreProfiler.Data
 {
     /// <summary>
     /// A <see cref="DbCommand"/> wrapper which supports DB profiling.

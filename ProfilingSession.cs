@@ -1,7 +1,7 @@
-﻿using EF.Diagnostics.Profiling.Configuration;
-using EF.Diagnostics.Profiling.ProfilingFilters;
-using EF.Diagnostics.Profiling.Storages;
-using EF.Diagnostics.Profiling.Timings;
+﻿using CoreProfiler.Configuration;
+using CoreProfiler.ProfilingFilters;
+using CoreProfiler.Storages;
+using CoreProfiler.Timings;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -10,7 +10,7 @@ using System.Text.RegularExpressions;
 using Microsoft.Extensions.Configuration;
 using System.Reflection;
 
-namespace EF.Diagnostics.Profiling
+namespace CoreProfiler
 {
     /// <summary>
     /// Represents a profiling session.

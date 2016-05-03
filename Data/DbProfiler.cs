@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Data.Common;
-using EF.Diagnostics.Profiling.Timings;
+using CoreProfiler.Timings;
 
-namespace EF.Diagnostics.Profiling.Data
+namespace CoreProfiler.Data
 {
     /// <summary>
     /// The default <see cref="IDbProfiler"/> implementation.

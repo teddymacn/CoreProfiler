@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading;
 
-namespace EF.Diagnostics.Profiling
+namespace CoreProfiler
 {
     /// <summary>
     /// The default AsyncLocal based <see cref="IProfilingSessionContainer"/> implementation.

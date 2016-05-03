@@ -1,10 +1,10 @@
-﻿using EF.Diagnostics.Profiling.Storages;
-using EF.Diagnostics.Profiling.Timings;
+﻿using CoreProfiler.Storages;
+using CoreProfiler.Timings;
 using System;
 using System.Diagnostics;
 using System.Linq;
 
-namespace EF.Diagnostics.Profiling
+namespace CoreProfiler
 {
     /// <summary>
     /// The default <see cref="IProfiler"/> implementation.

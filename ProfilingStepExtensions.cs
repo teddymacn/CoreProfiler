@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace EF.Diagnostics.Profiling
+namespace CoreProfiler
 {
     /// <summary>
     /// Extension methods for profiling step.

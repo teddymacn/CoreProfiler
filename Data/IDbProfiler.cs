@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Data.Common;
-using EF.Diagnostics.Profiling.Timings;
+using CoreProfiler.Timings;
 
-namespace EF.Diagnostics.Profiling.Data
+namespace CoreProfiler.Data
 {
     /// <summary>
     /// Represents a generic DB profiler for profiling execution of <see cref="IDbCommand"/>.

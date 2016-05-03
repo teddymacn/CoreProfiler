@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace EF.Diagnostics.Profiling
+namespace CoreProfiler
 {
     /// <summary>
     /// Represents a container of the current ProfilingSession.

@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Builder;
 
-namespace EF.Diagnostics.Profiling.Web
+namespace CoreProfiler.Web
 {
     public static class CoreProfilerMiddlewareExtensions
 {

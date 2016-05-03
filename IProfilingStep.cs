@@ -1,10 +1,10 @@
-﻿using EF.Diagnostics.Profiling.Timings;
+﻿using CoreProfiler.Timings;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace EF.Diagnostics.Profiling
+namespace CoreProfiler
 {
     /// <summary>
     /// Represents a profiling step of a <see cref="IProfiler"/>.

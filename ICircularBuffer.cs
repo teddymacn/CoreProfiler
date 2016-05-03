@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace EF.Diagnostics.Profiling
+namespace CoreProfiler
 {
     /// <summary>
     /// Represents a generic circular buffer.

@@ -1,7 +1,7 @@
 ﻿using System.Data;
 using System.Data.Common;
 
-namespace EF.Diagnostics.Profiling.Data
+namespace CoreProfiler.Data
 {
     /// <summary>
     /// A wrapper of <see cref="DbTransaction"/> which supports DB profiling.

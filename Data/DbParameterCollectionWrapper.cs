@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Data.Common;
 
-namespace EF.Diagnostics.Profiling.Data
+namespace CoreProfiler.Data
 {
     internal sealed class DbParameterCollectionWrapper : DbParameterCollection
     {

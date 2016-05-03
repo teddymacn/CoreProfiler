@@ -1,7 +1,7 @@
 using System.Text;
 using System.Text.RegularExpressions;
 
-namespace EF.Diagnostics.Profiling.ProfilingFilters
+namespace CoreProfiler.ProfilingFilters
 {
     /// <summary>
     /// An <see cref="IProfilingFilter"/> implement for ignoring file requests by extension.

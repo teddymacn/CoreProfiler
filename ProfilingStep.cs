@@ -1,11 +1,11 @@
-﻿using EF.Diagnostics.Profiling.Timings;
+﻿using CoreProfiler.Timings;
 using System;
 using System.Collections.Generic;
 
-namespace EF.Diagnostics.Profiling
+namespace CoreProfiler
 {
     /// <summary>
-    /// Implements <see cref="EF.Diagnostics.Profiling.IProfilingStep"/>.
+    /// Implements <see cref="CoreProfiler.IProfilingStep"/>.
     /// </summary>
     public class ProfilingStep : Timing, IProfilingStep
     {

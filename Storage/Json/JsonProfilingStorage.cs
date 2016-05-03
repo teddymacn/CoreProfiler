@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using EF.Diagnostics.Profiling.Configuration;
-using EF.Diagnostics.Profiling.Storages;
-using EF.Diagnostics.Profiling.Timings;
+using CoreProfiler.Configuration;
+using CoreProfiler.Storages;
+using CoreProfiler.Timings;
 using Microsoft.Extensions.Logging;
 
-namespace EF.Diagnostics.Profiling.Storage.Json
+namespace CoreProfiler.Storage.Json
 {
     /// <summary>
     /// A <see cref="IProfilingStorage"/> implementation which persists profiling results as json via slf4net.

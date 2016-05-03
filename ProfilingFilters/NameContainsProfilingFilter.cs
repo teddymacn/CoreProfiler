@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace EF.Diagnostics.Profiling.ProfilingFilters
+namespace CoreProfiler.ProfilingFilters
 {
     /// <summary>
     /// An <see cref="IProfilingFilter"/> implementation for ignoring profiling is name contains specified substr.

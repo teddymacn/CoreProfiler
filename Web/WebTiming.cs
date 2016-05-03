@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
-using EF.Diagnostics.Profiling.Timings;
+using CoreProfiler.Timings;
 
-namespace EF.Diagnostics.Profiling.Web
+namespace CoreProfiler.Web
 {
     /// <summary>
     /// Represents a timing for generic web requests

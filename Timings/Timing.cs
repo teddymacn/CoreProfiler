@@ -2,7 +2,7 @@
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 
-namespace EF.Diagnostics.Profiling.Timings
+namespace CoreProfiler.Timings
 {
     /// <summary>
     /// The default timing class.

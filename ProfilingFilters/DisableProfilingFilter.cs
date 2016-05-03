@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace EF.Diagnostics.Profiling.ProfilingFilters
+namespace CoreProfiler.ProfilingFilters
 {
     /// <summary>
     /// A predefined filter for disabling any profiling.

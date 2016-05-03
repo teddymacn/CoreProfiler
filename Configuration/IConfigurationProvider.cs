@@ -1,9 +1,9 @@
-﻿using EF.Diagnostics.Profiling.ProfilingFilters;
-using EF.Diagnostics.Profiling.Storages;
-using EF.Diagnostics.Profiling.Timings;
+﻿using CoreProfiler.ProfilingFilters;
+using CoreProfiler.Storages;
+using CoreProfiler.Timings;
 using System.Collections.Generic;
 
-namespace EF.Diagnostics.Profiling.Configuration
+namespace CoreProfiler.Configuration
 {
     /// <summary>
     /// Reprensent a configuration provider.

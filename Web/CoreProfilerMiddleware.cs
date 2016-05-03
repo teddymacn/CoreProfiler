@@ -5,12 +5,12 @@ using System.Net;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
-using EF.Diagnostics.Profiling.Timings;
+using CoreProfiler.Timings;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.Extensions.Logging;
 
-namespace EF.Diagnostics.Profiling.Web
+namespace CoreProfiler.Web
 {
     public class CoreProfilerMiddleware
     {

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace EF.Diagnostics.Profiling.Timings
+namespace CoreProfiler.Timings
 {
     /// <summary>
     /// Represents a profiling timing session.

@@ -1,4 +1,4 @@
-﻿namespace EF.Diagnostics.Profiling.Configuration
+﻿namespace CoreProfiler.Configuration
 {
     public class FilterConfigurationItem
     {

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace EF.Diagnostics.Profiling.Timings
+namespace CoreProfiler.Timings
 {
     /// <summary>
     /// Represents a generic timing.

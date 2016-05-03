@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace EF.Diagnostics.Profiling.ProfilingFilters
+namespace CoreProfiler.ProfilingFilters
 {
     internal sealed class ProfilingFilterList : ICollection<IProfilingFilter>
     {

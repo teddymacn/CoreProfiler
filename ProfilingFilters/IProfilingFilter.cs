@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace EF.Diagnostics.Profiling.ProfilingFilters
+namespace CoreProfiler.ProfilingFilters
 {
     /// <summary>
     /// Represents a filter to filter profiling sessions from being started by name and tags.

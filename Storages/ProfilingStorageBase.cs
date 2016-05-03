@@ -1,10 +1,10 @@
-﻿using EF.Diagnostics.Profiling.Configuration;
-using EF.Diagnostics.Profiling.Timings;
+﻿using CoreProfiler.Configuration;
+using CoreProfiler.Timings;
 using Microsoft.Extensions.Logging;
 using System.Collections.Concurrent;
 using System.Threading;
 
-namespace EF.Diagnostics.Profiling.Storages
+namespace CoreProfiler.Storages
 {
     /// <summary>
     /// Asynchronous saving profiling timing sessions with a single-thread-queue worker. 

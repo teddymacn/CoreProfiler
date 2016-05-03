@@ -1,6 +1,6 @@
 ﻿using System.Data.Common;
 
-namespace EF.Diagnostics.Profiling.Data
+namespace CoreProfiler.Data
 {
     /// <summary>
     /// The execute types of the execution of <see cref="DbCommand"/>.
