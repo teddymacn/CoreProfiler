@@ -13,20 +13,31 @@
     "Microsoft.Extensions.Configuration.Abstractions": "1.0.0-*",
     "Microsoft.Extensions.Configuration": "1.0.0-*",
     "Microsoft.Extensions.Configuration.Json": "1.0.0-*",
-    "Serilog.Extensions.Logging": "1.0.0-*",
-    "Serilog.Sinks.Literate": "2.0.0-beta-21",
     "Microsoft.Extensions.Configuration.Binder": "1.0.0-*",
     "Microsoft.Data.Sqlite": "1.0.0-*",
+    "Microsoft.AspNetCore.Server.IISIntegration": "1.0.0-*",
+    "Microsoft.AspNetCore.Server.Kestrel": "1.0.0-*",
+    "Microsoft.EntityFrameworkCore": "1.0.0-*",
+    "Microsoft.EntityFrameworkCore.Sqlite": "1.0.0-*",
     "Microsoft.NETCore.App": {
       "type": "platform",
-      "version": "1.0.0-rc2-3002543"
+      "version": "1.0.0-rc2-3002608"
     }
   },
   "contentFiles": [
     "coreprofiler.json"
   ],
+  "resource": [
+    "Web/icons.png",
+    "Web/treeview_timeline.css"
+  ],
   "frameworks": {
-    "dnxcore50": {
+    "netcoreapp1.0": {
+      "imports": [
+        "portable-net45+wp80+win8+wpa81+dnxcore50",
+        "portable-net45+win8+wp8+wpa81",
+        "portable-net45+win8+wp8"
+      ]
     }
   }
 }

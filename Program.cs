@@ -7,8 +7,10 @@ using EF.Diagnostics.Profiling.Data;
 using EF.Diagnostics.Profiling.Storage.Json;
 using EF.Diagnostics.Profiling.Timings;
 using Microsoft.Data.Sqlite;
-using Serilog;
-using Serilog.Events;
+using Microsoft.AspNetCore.Hosting;
+using System.IO;
+//using Serilog;
+//using Serilog.Events;
 
 namespace EF.Diagnostics.Profiling
 {
@@ -30,17 +32,26 @@ namespace EF.Diagnostics.Profiling
     {
         public static void Main(string[] args)
         {
-            Console.ReadKey();
+            //Console.ReadKey();
 
-            Log.Logger = new LoggerConfiguration()
-                .WriteTo.LiterateConsole(LogEventLevel.Information, "{Message}{NewLine}")
-                .CreateLogger();
+            //Log.Logger = new LoggerConfiguration()
+            //    .WriteTo.LiterateConsole(LogEventLevel.Information, "{Message}{NewLine}")
+            //    .CreateLogger();
 
             ProfilingSession.ProfilingStorage = new TestStorage();
 
-            Run();
+            //Run();
 
-            Console.ReadKey();
+            //Console.ReadKey();
+            
+            var host = new WebHostBuilder()
+                        .UseKestrel()
+                        .UseContentRoot(Directory.GetCurrentDirectory())
+                        .UseIISIntegration()
+                        .UseStartup<Startup>()
+                        .Build();
+
+            host.Run();
         }
 
         private static void Run()

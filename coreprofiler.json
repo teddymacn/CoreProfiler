@@ -1,18 +1,23 @@
 ﻿{
-  "logProvider": "Serilog.Extensions.Logging.SerilogLoggerProvider, Serilog.Extensions.Logging",
+  "logProvider": "",
   "provider": "",
   "circularBufferSize": 200,
   "storage": "EF.Diagnostics.Profiling.TestStorage, CoreProfilerDev",
   "filters": [
     {
       "key": "contains1",
-      "value": "test1",
+      "value": "/coreprofiler",
       "type": "EF.Diagnostics.Profiling.ProfilingFilters.NameContainsProfilingFilter, CoreProfilerDev"
     },
     {
       "key": "regex1",
       "value": "test1",
       "type": "regex"
+    },
+    {
+      "key": "static files",
+      "value": "ico,jpg,js,css",
+      "type": "EF.Diagnostics.Profiling.ProfilingFilters.FileExtensionProfilingFilter, CoreProfilerDev"
     }
   ]
 }

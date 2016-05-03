@@ -250,7 +250,7 @@ namespace EF.Diagnostics.Profiling
             var config = ConfigurationHelper.GetConfiguration();
             if (config == null) return;
 
-            var logProviderName = config.GetSection("logProvider").Get<string>();
+            var logProviderName = config.GetValue<string>("logProvider");
             if (!string.IsNullOrEmpty(logProviderName))
             {
                 var logProviderType = Type.GetType(logProviderName, true);
@@ -275,13 +275,13 @@ namespace EF.Diagnostics.Profiling
                 }
             }
 
-            var providerName = config.GetSection("provider").Get<string>();
+            var providerName = config.GetValue<string>("provider");
             if (string.IsNullOrEmpty(providerName))
             {
                 // load configuration from config directly
 
                 // load storage
-                var storageName = config.GetSection("storage").Get<string>();
+                var storageName = config.GetValue<string>("storage");
                 if (!string.IsNullOrEmpty(storageName))
                 {
                     var type = Type.GetType(storageName, true);
@@ -289,18 +289,21 @@ namespace EF.Diagnostics.Profiling
                 }
 
                 // load CircularBuffer size
-                var circularBufferSizeSection = config.GetSection("circularBufferSize");
-                if (circularBufferSizeSection != null)
+                var circularBufferSizeStr = config.GetValue<string>("circularBufferSize");
+                if (circularBufferSizeStr != null)
                 {
-                    var circularBufferSize = circularBufferSizeSection.Get<int>();
+                    var circularBufferSize = int.Parse(circularBufferSizeStr);
                     CircularBuffer = new CircularBuffer<ITimingSession>(circularBufferSize);
                 }
 
                 // load filters
-                var filtersSection = config.Get<FilterConfigurationItem[]>("filters");
+                var filtersSection = config.GetSection("filters");
                 if (filtersSection != null)
                 {
-                    foreach (var filter in filtersSection)
+                    var filters = new List<FilterConfigurationItem>();
+                    filtersSection.Bind(filters);
+                    
+                    foreach (var filter in filters)
                     {
                         if (string.IsNullOrWhiteSpace(filter.Type) ||
                         string.Equals(filter.Type, "contain", StringComparison.OrdinalIgnoreCase))
