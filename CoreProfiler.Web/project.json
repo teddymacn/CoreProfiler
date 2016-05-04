@@ -1,12 +1,12 @@
 ﻿{
-  "version": "1.0.0-beta-20160504-1",
+  "version": "1.0.0-beta-20160504-2",
   "description": "CoreProfiler.Web - A .NET Core Profiling Library",
   "authors": [ "teddy.ma" ],
   "compilationOptions": {
     "emitEntryPoint": false
   },
   "dependencies": {
-    "CoreProfiler": "1.0.0-beta-20160504-1",
+    "CoreProfiler": "1.0.0-*",
     "Microsoft.AspNetCore.Server.Kestrel": "1.0.0-rc3-20765"
   },
   "buildOptions":{
@@ -19,7 +19,8 @@
     }
   },
   "packOptions": {
-    "tags": [ "" ],
+    "title": "CoreProfiler.Web",
+    "tags": [ "coreclr", "profiling", ".netcore", "miniprofiler", "nanoprofiler", "performance", "timing", "profiler" ],
     "projectUrl": "https://github.com/teddymacn/coreprofiler",
     "licenseUrl": "https://mit-license.org/"
   },

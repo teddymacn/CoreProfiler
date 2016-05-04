@@ -31,6 +31,7 @@ Basic usage
 
 - Add a [coreprofiler.json](https://github.com/teddymacn/CoreProfiler/blob/master/mvc-ef-demo/coreprofiler.json) file to your project and make sure it is in [the include of copyToOutput in your project.json](https://github.com/teddymacn/CoreProfiler/blob/master/mvc-ef-demo/project.json#L23).
 - If you want to profile DB queries, you need to wrap DbConnection instances like for example: [here](https://github.com/teddymacn/CoreProfiler/blob/master/mvc-ef-demo/Startup.cs#L24).
-- In the coreprofiler.json file, you could configure some options of the profiling, including specifying custom configuration provider, log provider and persistence storage for persisting, profiling filters, number of profiling results to be kept in memory for display, etc. I'll add more documents to talk about them soon later.
+- In the coreprofiler.json file, you could configure some options of the profiling, including specifying custom configuration provider, log provider and persistence storage for persisting, profiling filters, number of profiling results to be kept in memory for display, etc.
 
-You can check the [mvc-ef-demo](https://github.com/teddymacn/CoreProfiler/tree/master/mvc-ef-demo) project in the source code for the details.
+You can check the [mvc-ef-demo](https://github.com/teddymacn/CoreProfiler/tree/master/mvc-ef-demo) sample for how to enable profiling in a mvc + entityframeworkcore web application.
+You can check the [console-demo](https://github.com/teddymacn/CoreProfiler/blob/master/console-demo) sample for how to use Serilog and JsonProfilingStorage to persist logs and [how to start/stop profiling in a non-web application](https://github.com/teddymacn/CoreProfiler/blob/master/console-demo/Program.cs).

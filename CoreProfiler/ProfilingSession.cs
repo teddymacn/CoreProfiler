@@ -290,7 +290,7 @@ namespace CoreProfiler
 
                 // load CircularBuffer size
                 var circularBufferSizeStr = config.GetValue<string>("circularBufferSize");
-                if (circularBufferSizeStr != null)
+                if (!string.IsNullOrEmpty(circularBufferSizeStr))
                 {
                     var circularBufferSize = int.Parse(circularBufferSizeStr);
                     CircularBuffer = new CircularBuffer<ITimingSession>(circularBufferSize);

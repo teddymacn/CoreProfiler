@@ -1,0 +1,29 @@
+{
+  "version": "1.0.0-*",
+  "dependencies": {
+    "CoreProfiler": "1.0.0-*",
+    "Microsoft.Extensions.Logging": "1.0.0-rc1-final",
+    "Serilog.Extensions.Logging": "1.0.0-rc1-final-10092",
+    "Serilog.Sinks.Literate": "2.0.0-beta-21",
+    "Microsoft.NETCore.App": {
+      "type": "platform",
+      "version": "1.0.0-rc2-3002608"
+    }
+  },
+  "buildOptions":{
+    "copyToOutput":{
+      "include": "coreprofiler.json"
+    },
+    "emitEntryPoint": true
+  },
+  "frameworks": {
+    "netcoreapp1.0": {
+      "imports": [
+        "portable-net45+wp80+win8+wpa81+dnxcore50",
+        "portable-net45+win8+wp8+wpa81",
+        "portable-net45+win8+wp8",
+        "dnxcore50"
+      ]
+    }
+  }
+}
