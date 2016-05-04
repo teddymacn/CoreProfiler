@@ -26,10 +26,8 @@ Basic usage
 
 - For profiling a web applications, you need to add references to both CoreProfiler and CoreProfiler.Web.
 - In the Startup.cs file, you need to add the code below to enable CoreProfiler profiling:
-
-    app.UseCoreProfiler();
-
-- Add a [coreprofiler.json](https://github.com/teddymacn/CoreProfiler/blob/master/mvc-ef-demo/coreprofiler.json) file to your project and make sure it is in [the include of copyToOutput in your project.json](https://github.com/teddymacn/CoreProfiler/blob/master/mvc-ef-demo/project.json#L23):
+app.UseCoreProfiler();
+- Add a [coreprofiler.json](https://github.com/teddymacn/CoreProfiler/blob/master/mvc-ef-demo/coreprofiler.json) file to your project and make sure it is in [the include of copyToOutput in your project.json](https://github.com/teddymacn/CoreProfiler/blob/master/mvc-ef-demo/project.json#L23).
 - If you want to profile DB queries, you need to wrap DbConnection instances like for example: [here](https://github.com/teddymacn/CoreProfiler/blob/master/mvc-ef-demo/Startup.cs#L24).
 - In the coreprofiler.json file, you could configure some options of the profiling, including specifying custom configuration provider, log provider and persistence storage for persisting, profiling filters, number of profiling results to be kept in memory for display, etc. I'll add more documents to talk about them soon later.
 
