@@ -12,17 +12,16 @@ For documentations of NanoProfiler, please check out wiki pages: https://github.
 How to compile the source code?
 -------------------------------
 
-- download latest version of dotnet cli from [https://github.com/dotnet/cli](https://github.com/dotnet/cli)
+- Download latest version of dotnet cli from [https://github.com/dotnet/cli](https://github.com/dotnet/cli)
 - git clone https://github.com/teddymacn/CoreProfiler.git
-- run .\build.ps1
-
-You could also use [Visual Studio Code](https://code.visualstudio.com/) to open the project folders for editting
+- Run .\build.ps1
+- You could also use [Visual Studio Code](https://code.visualstudio.com/) to open the project folders for editting
 
 License terms
 -------------
 CoreProfiler is released under the [MIT license](https://mit-license.org/).
 
-Basic Usage
+Basic usage
 -----------
 
 - For profiling a web applications, you need to add references to both CoreProfiler and CoreProfiler.Web.
