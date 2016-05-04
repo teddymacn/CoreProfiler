@@ -1,0 +1,18 @@
+﻿{
+  "logProvider": "",
+  "provider": "",
+  "circularBufferSize": 200,
+  "storage": "",
+  "filters": [
+    {
+      "key": "/coreprofiler",
+      "value": "/coreprofiler",
+      "type": "CoreProfiler.ProfilingFilters.NameContainsProfilingFilter, CoreProfiler"
+    },
+    {
+      "key": "static files",
+      "value": "ico,jpg,js,css",
+      "type": "CoreProfiler.ProfilingFilters.FileExtensionProfilingFilter, CoreProfiler"
+    }
+  ]
+}

@@ -1,0 +1,11 @@
+﻿@model ArticleListViewModel
+
+<div class="row">
+    <h2>This list below is fetched from a SQLite database</h2>
+    <ul class="articleList">
+        @foreach (var item in Model.Articles)
+        {
+            <li><a href="#">@item.Title</a></li>
+        }
+    </ul>
+</div>
