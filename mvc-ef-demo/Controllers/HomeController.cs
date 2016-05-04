@@ -4,6 +4,7 @@ using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MvcEfSample.Models;
+using CoreProfiler;
 
 namespace MvcEfSample.Controllers
 {
@@ -18,11 +19,22 @@ namespace MvcEfSample.Controllers
         [HttpGet]
         public async Task<ActionResult> Index()
         {
-            var articles = await dbContext.Articles.OrderByDescending(a => a.Id)
-                .Take(10)
-                .ToArrayAsync();
+            using (ProfilingSession.Current.Step("Handle Request - /"))
+            {
+                Article[] articles;
                 
-            return View(new ArticleListViewModel { Articles = articles });
+                using (ProfilingSession.Current.Step(() => "Load Data"))
+                {
+                    articles = await dbContext.Articles.OrderByDescending(a => a.Id)
+                        .Take(10)
+                        .ToArrayAsync();
+                }
+                    
+                using (ProfilingSession.Current.Step("Render View"))      
+                {         
+                    return View(new ArticleListViewModel { Articles = articles });
+                }
+            }
         }
     }
 }
