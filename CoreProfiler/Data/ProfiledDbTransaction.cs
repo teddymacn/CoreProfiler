@@ -9,7 +9,6 @@ namespace CoreProfiler.Data
     internal class ProfiledDbTransaction : DbTransaction
     {
         private readonly DbTransaction _transaction;
-        private readonly IDbProfiler _dbProfiler;
         private DbConnection _dbConnection;
 
         #region Constructors
@@ -19,12 +18,10 @@ namespace CoreProfiler.Data
         /// </summary>
         /// <param name="transaction">The <see cref="DbTransaction"/> to be profiled.</param>
         /// <param name="connection">The <see cref="DbConnection"/>.</param>
-        /// <param name="dbProfiler">The <see cref="IDbProfiler"/>.</param>
-        public ProfiledDbTransaction(DbTransaction transaction, DbConnection connection, IDbProfiler dbProfiler)
+        public ProfiledDbTransaction(DbTransaction transaction, DbConnection connection)
         {
             _transaction = transaction;
             _dbConnection = connection ?? transaction.Connection;
-            _dbProfiler = dbProfiler;
         }
 
         #endregion

@@ -30,7 +30,7 @@ namespace CoreProfiler.Data
         /// Initializes a <see cref="ProfiledDbConnection"/>.
         /// </summary>
         /// <param name="connection">The <see cref="DbConnection"/> to be profiled.</param>
-        /// <param name="dbProfiler">The <see cref="IDbProfiler"/>.</param>
+        /// <param name="getDbProfiler">Gets the <see cref="IDbProfiler"/>.</param>
         public ProfiledDbConnection(DbConnection connection, Func<IDbProfiler> getDbProfiler)
         {
             if (connection == null)
@@ -42,6 +42,9 @@ namespace CoreProfiler.Data
             {
                 throw new ArgumentNullException("getDbProfiler");
             }
+            
+            if (connection is ProfiledDbConnection)
+                throw new ArgumentException("connection to be profiled should not be a instance of ProfiledDbConnection!");
             
             _connection = connection;
             if (_connection != null)
@@ -62,17 +65,8 @@ namespace CoreProfiler.Data
         /// <returns>An object representing the new transaction.</returns>
         protected override DbTransaction BeginDbTransaction(IsolationLevel isolationLevel)
         {
-            var transaction = _connection.BeginTransaction(isolationLevel);
-            var profiledTransaction = transaction as ProfiledDbTransaction;
-            if (profiledTransaction != null)
-            {
-                return profiledTransaction;
-            }
-
-            var dbProfiler = _getDbProfiler();
-            if (dbProfiler == null) return transaction;
-            
-            return new ProfiledDbTransaction(transaction, this, dbProfiler);
+            var transaction = _connection.BeginTransaction(isolationLevel);            
+            return new ProfiledDbTransaction(transaction, this);
         }
 
         /// <summary>
