@@ -11,6 +11,8 @@ namespace CoreProfiler.Data
         private readonly DbTransaction _transaction;
         private DbConnection _dbConnection;
 
+        public DbTransaction WrappedTransaction { get { return _transaction; } }
+
         #region Constructors
 
         /// <summary>

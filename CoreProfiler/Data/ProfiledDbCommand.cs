@@ -14,7 +14,7 @@ namespace CoreProfiler.Data
     public class ProfiledDbCommand : DbCommand
     {
         private readonly DbCommand _command;
-        private readonly IDbProfiler _dbProfiler;
+        private readonly Func<IDbProfiler> _getDbProfiler;
         private DbParameterCollection _dbParameterCollection;
 
         #region Properties
@@ -46,19 +46,41 @@ namespace CoreProfiler.Data
         /// <param name="dbProfiler">The <see cref="IDbProfiler"/>.</param>
         /// <param name="tags">The tags of the <see cref="DbTiming"/> which will be created internally.</param>
         public ProfiledDbCommand(DbCommand command, IDbProfiler dbProfiler, TagCollection tags)
+            :this(command, () => dbProfiler, tags)
+        {
+        }
+        
+        /// <summary>
+        /// Initializes a <see cref="ProfiledDbCommand"/>.
+        /// </summary>
+        /// <param name="command">The <see cref="DbCommand"/> to be profiled.</param>
+        /// <param name="getDbProfiler">Gets the <see cref="IDbProfiler"/>.</param>
+        /// <param name="tags">The tags of the <see cref="DbTiming"/> which will be created internally.</param>        
+        public ProfiledDbCommand(DbCommand command, Func<IDbProfiler> getDbProfiler, IEnumerable<string> tags = null)
+            : this(command, getDbProfiler, tags == null ? null : new TagCollection(tags))
+        {
+        }
+        
+        /// <summary>
+        /// Initializes a <see cref="ProfiledDbCommand"/>.
+        /// </summary>
+        /// <param name="command">The <see cref="DbCommand"/> to be profiled.</param>
+        /// <param name="getDbProfiler">Gets the <see cref="IDbProfiler"/>.</param>
+        /// <param name="tags">The tags of the <see cref="DbTiming"/> which will be created internally.</param>
+        public ProfiledDbCommand(DbCommand command, Func<IDbProfiler> getDbProfiler, TagCollection tags)
         {
             if (command == null)
             {
                 throw new ArgumentNullException("command");
             }
 
-            if (dbProfiler == null)
+            if (getDbProfiler == null)
             {
-                throw new ArgumentNullException("dbProfiler");
+                throw new ArgumentNullException("getDbProfiler");
             }
             
             _command = command;
-            _dbProfiler = dbProfiler;
+            _getDbProfiler = getDbProfiler;
 
             Tags = tags;
         }
@@ -140,7 +162,10 @@ namespace CoreProfiler.Data
             }
             set
             {
-                _command.Connection = value;
+                if (value is ProfiledDbConnection)
+                    _command.Connection = (value as ProfiledDbConnection).WrappedConnection;
+                else
+                    _command.Connection = value;
             }
         }
 
@@ -183,7 +208,10 @@ namespace CoreProfiler.Data
             }
             set
             {
-                _command.Transaction = value;
+                if (value is ProfiledDbTransaction)
+                    _command.Transaction = (value as ProfiledDbTransaction).WrappedTransaction;
+                else
+                    _command.Transaction = value;
             }
         }
 
@@ -203,8 +231,11 @@ namespace CoreProfiler.Data
         /// <returns></returns>
         protected override DbDataReader ExecuteDbDataReader(CommandBehavior behavior)
         {
+            var dbProfiler = _getDbProfiler();
+            if (dbProfiler == null) return _command.ExecuteReader();
+            
             DbDataReader reader = null;
-            _dbProfiler.ExecuteDbCommand(
+            dbProfiler.ExecuteDbCommand(
                 DbExecuteType.Reader
                 , _command
                 , () => reader = _command.ExecuteReader(behavior)
@@ -216,7 +247,7 @@ namespace CoreProfiler.Data
                 return profiledReader;
             }
 
-            return new ProfiledDbDataReader(reader, _dbProfiler);
+            return new ProfiledDbDataReader(reader, dbProfiler);
         }
 
         /// <summary>
@@ -225,8 +256,11 @@ namespace CoreProfiler.Data
         /// <returns>Returns The number of rows affected. </returns>
         public override int ExecuteNonQuery()
         {
+            var dbProfiler = _getDbProfiler();
+            if (dbProfiler == null) return _command.ExecuteNonQuery();
+            
             int affected = 0;
-            _dbProfiler.ExecuteDbCommand(
+            dbProfiler.ExecuteDbCommand(
                 DbExecuteType.NonQuery, _command, () => { affected = _command.ExecuteNonQuery(); return null; }, Tags);
             return affected;
         }
@@ -237,8 +271,11 @@ namespace CoreProfiler.Data
         /// <returns>The first column of the first row in the result set. </returns>
         public override object ExecuteScalar()
         {
+            var dbProfiler = _getDbProfiler();
+            if (dbProfiler == null) return _command.ExecuteScalar();
+            
             object returnValue = null;
-            _dbProfiler.ExecuteDbCommand(
+            dbProfiler.ExecuteDbCommand(
                 DbExecuteType.Scalar, _command, () => { returnValue = _command.ExecuteScalar(); return null; }, Tags);
             return returnValue;
         }

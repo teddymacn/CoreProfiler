@@ -14,6 +14,8 @@ namespace CoreProfiler.Data
         private readonly DbConnection _connection;
         private readonly Func<IDbProfiler> _getDbProfiler;
 
+        public DbConnection WrappedConnection { get { return _connection; } }
+
         #region Constructors
 
         /// <summary>
@@ -108,16 +110,7 @@ namespace CoreProfiler.Data
         protected override DbCommand CreateDbCommand()
         {
             var command = _connection.CreateCommand();
-            var profiledCommand = command as ProfiledDbCommand;
-            if (profiledCommand != null)
-            {
-                return profiledCommand;
-            }
-            
-            var dbProfiler = _getDbProfiler();
-            if (dbProfiler == null) return command;
-
-            return new ProfiledDbCommand(command, dbProfiler);
+            return new ProfiledDbCommand(command, _getDbProfiler);
         }
 
         /// <summary>
