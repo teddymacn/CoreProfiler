@@ -3,6 +3,7 @@ using CoreProfiler.Timings;
 using Microsoft.Extensions.Logging;
 using System.Collections.Concurrent;
 using System.Threading;
+using System;
 
 namespace CoreProfiler.Storages
 {
@@ -16,7 +17,7 @@ namespace CoreProfiler.Storages
     /// <remarks></remarks>
     public abstract class ProfilingStorageBase : IProfilingStorage
     {
-        private static readonly ILogger Logger = ConfigurationHelper.GetLogger<ProfilingStorageBase>();
+        private static readonly Lazy<ILogger> Logger = new Lazy<ILogger>(() => ConfigurationHelper.GetLogger<ProfilingStorageBase>());
 
         private readonly ConcurrentQueue<ITimingSession> _sessionQueue = new ConcurrentQueue<ITimingSession>();
         private Thread _workerThread;
@@ -145,7 +146,8 @@ namespace CoreProfiler.Storages
             TryDequeue(out temp);
             Enqueue(session);
 
-            Logger.LogError(OnQueueOverflowEventMessage);
+            if (Logger.Value.IsEnabled(LogLevel.Error))
+                Logger.Value.LogError(OnQueueOverflowEventMessage);
         }
 
         #endregion

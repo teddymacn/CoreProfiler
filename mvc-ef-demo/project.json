@@ -2,16 +2,16 @@
   "name": "MvcEfSample",
   "version": "1.0.0-*",
   "dependencies": {
-    "Microsoft.AspNetCore.Diagnostics": "1.0.0-*",
-    "Microsoft.AspNetCore.Mvc": "1.0.0-*",
-    "Microsoft.AspNetCore.Mvc.TagHelpers": "1.0.0-*",
-    "Microsoft.AspNetCore.Server.IISIntegration": "1.0.0-*",
-    "Microsoft.AspNetCore.Server.Kestrel": "1.0.0-*",
-    "Microsoft.AspNetCore.StaticFiles": "1.0.0-*",
-    "Microsoft.Extensions.Logging.Console": "1.0.0-*",
-    "Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore": "1.0.0-*",
-    "Microsoft.EntityFrameworkCore": "1.0.0-*",
-    "Microsoft.EntityFrameworkCore.Sqlite": "1.0.0-*",
+    "Microsoft.AspNetCore.Diagnostics": "1.0.0-rc3-20765",
+    "Microsoft.AspNetCore.Mvc": "1.0.0-rc3-20765",
+    "Microsoft.AspNetCore.Mvc.TagHelpers": "1.0.0-rc3-20765",
+    "Microsoft.AspNetCore.Server.IISIntegration": "1.0.0-rc3-20765",
+    "Microsoft.AspNetCore.Server.Kestrel": "1.0.0-rc3-20765",
+    "Microsoft.Extensions.PlatformAbstractions": "1.0.0-rc3-20765",
+    "Microsoft.AspNetCore.StaticFiles": "1.0.0-rc3-20765",
+    "Microsoft.Extensions.Logging.Console": "1.0.0-rc3-20765",
+    "Microsoft.EntityFrameworkCore": "1.0.0-rc3-20765",
+    "Microsoft.EntityFrameworkCore.Sqlite": "1.0.0-rc3-20765",
     "CoreProfiler": "1.0.0-*",
     "CoreProfiler.Web": "1.0.0-*",
     "Microsoft.NETCore.App": {
@@ -39,7 +39,7 @@
   },
   "tools": {
     "Microsoft.AspNetCore.Server.IISIntegration.Tools": {
-      "version": "1.0.0-*",
+      "version": "1.0.0-rc3-20765",
       "imports": [
         "portable-net45+wp80+win8+wpa81+dnxcore50",
         "portable-net451+win8"

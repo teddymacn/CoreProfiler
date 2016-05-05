@@ -53,6 +53,10 @@ namespace MvcEfSample
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
+                    
+                routes.MapRoute(
+                    name: "child",
+                    template: "{controller=Home}/{action=Child}");
             });
             
             InitializeDatabase(app);

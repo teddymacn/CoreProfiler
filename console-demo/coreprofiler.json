@@ -1,5 +1,4 @@
 ﻿{
-  "logProvider": "Serilog.Extensions.Logging.SerilogLoggerProvider, Serilog.Extensions.Logging",
-  "storage": "CoreProfiler.Storage.Json.JsonProfilingStorage, CoreProfiler",
+  "storage": "CoreProfiler.Storages.JsonProfilingStorage, CoreProfiler",
   "filters": [ ]
 }

@@ -3,18 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using CoreProfiler.Configuration;
-using CoreProfiler.Storages;
 using CoreProfiler.Timings;
 using Microsoft.Extensions.Logging;
 
-namespace CoreProfiler.Storage.Json
+namespace CoreProfiler.Storages
 {
     /// <summary>
     /// A <see cref="IProfilingStorage"/> implementation which persists profiling results as json via slf4net.
     /// </summary>
     public class JsonProfilingStorage : ProfilingStorageBase
     {
-        private static readonly ILogger Logger = ConfigurationHelper.GetLogger<JsonProfilingStorage>();
+        private static readonly Lazy<ILogger> Logger = new Lazy<ILogger>(() => ConfigurationHelper.GetLogger<JsonProfilingStorage>());
 
         /// <summary>
         /// Data filed names which should be treated as integer fields.
@@ -41,7 +40,7 @@ namespace CoreProfiler.Storage.Json
         /// <param name="session"></param>
         protected override void Save(ITimingSession session)
         {
-            if (!Logger.IsEnabled(LogLevel.Information))
+            if (!Logger.Value.IsEnabled(LogLevel.Information))
             {
                 return;
             }
@@ -93,7 +92,7 @@ namespace CoreProfiler.Storage.Json
 
             sb.Append("}");
 
-            Logger.LogInformation(sb.ToString());
+            Logger.Value.LogInformation(sb.ToString());
         }
 
         private void SaveTimingJson(ITimingSession session, ITiming timing)
@@ -106,7 +105,7 @@ namespace CoreProfiler.Storage.Json
 
             sb.Append("}");
 
-            Logger.LogInformation(sb.ToString());
+            Logger.Value.LogInformation(sb.ToString());
         }
 
         private static void AppendSessionSharedFields(StringBuilder sb, ITimingSession session)

@@ -17,11 +17,13 @@ namespace CoreProfiler
     /// </summary>
     public sealed class ProfilingSession
     {
-        private static readonly ILogger Logger = ConfigurationHelper.GetLogger<ProfilingSession>();
+        private static readonly Lazy<ILogger> Logger = new Lazy<ILogger>(() => ConfigurationHelper.GetLogger<ProfilingSession>());
 
         private static IProfilingSessionContainer _profilingSessionContainer;
         private static IProfilingStorage _profilingStorage;
         private readonly IProfiler _profiler;
+
+        public static readonly ILoggerFactory LoggerFactory = new LoggerFactory();
 
         #region Properties
 
@@ -242,7 +244,8 @@ namespace CoreProfiler
 
         private static void HandleException(Exception ex, object origin)
         {
-            Logger.LogError(string.Format("Unexpected exception thrown from {0}: {1}", origin, ex.Message), ex);
+           if (Logger.Value.IsEnabled(LogLevel.Error))
+                Logger.Value.LogError(string.Format("Unexpected exception thrown from {0}: {1}", origin, ex.Message), ex);
         }
 
         private static void InitializeConfigurationFromConfig()
@@ -271,7 +274,7 @@ namespace CoreProfiler
                         throw new InvalidOperationException("Invalid log provider: " + logProviderName);
                     }
 
-                    ConfigurationHelper.LogFactory.AddProvider(logProvider);
+                    LoggerFactory.AddProvider(logProvider);
                 }
             }
 

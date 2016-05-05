@@ -1,5 +1,5 @@
 ﻿{
-  "version": "1.0.0-beta-20160504-2",
+  "version": "1.0.0-beta-20160505-1",
   "description": "CoreProfiler.Web - A .NET Core Profiling Library",
   "authors": [ "teddy.ma" ],
   "compilationOptions": {
@@ -26,7 +26,15 @@
   },
   "frameworks": {
     "net461": { },
-    "dnxcore50": { },
-    "netcore50": { }
+    "dnxcore50": {
+      "dependencies": {
+        "System.Runtime": "4.1.0-rc3-24102-00"
+      }
+    },
+    "netcore50": {
+      "dependencies": {
+        "System.Runtime": "4.1.0-rc3-24102-00"
+      }
+    }
   }
 }

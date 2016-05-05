@@ -18,7 +18,7 @@ namespace CoreProfiler.Web
         private readonly ILogger _logger;
         
         private const string ViewUrl = "/coreprofiler/view";
-        private const string ETCorrelationId = "X-ET-Correlation-Id";
+        public const string XCorrelationId = "X-CoreProfiler-Correlation-Id";
 
         /// <summary>
         /// The default Html of the view-result index page: ~/coreprofiler/view
@@ -454,9 +454,9 @@ namespace CoreProfiler.Web
 
         private string GetCorrelationIdFromHeaders(HttpContext context)
         {
-            if (context.Request.Headers.Keys.Contains(ETCorrelationId))
+            if (context.Request.Headers.Keys.Contains(XCorrelationId))
             {
-                var correlationIds = context.Request.Headers.GetCommaSeparatedValues(ETCorrelationId);
+                var correlationIds = context.Request.Headers.GetCommaSeparatedValues(XCorrelationId);
                 if (correlationIds != null)
                 {
                     return correlationIds.FirstOrDefault();

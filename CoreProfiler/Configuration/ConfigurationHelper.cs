@@ -5,11 +5,9 @@ namespace CoreProfiler.Configuration
 {
     public static class ConfigurationHelper
     {
-        internal static readonly ILoggerFactory LogFactory = new LoggerFactory();
-
         public static ILogger GetLogger<T>()
         {
-            return LogFactory.CreateLogger<T>();
+            return ProfilingSession.LoggerFactory.CreateLogger(typeof(T).FullName);
         }
 
         public static IConfiguration GetConfiguration()
