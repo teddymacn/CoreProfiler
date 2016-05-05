@@ -72,7 +72,7 @@ namespace CoreProfiler.Data
             var dbProfiler = _getDbProfiler();
             if (dbProfiler == null) return transaction;
             
-            return new ProfiledDbTransaction(transaction, dbProfiler);
+            return new ProfiledDbTransaction(transaction, this, dbProfiler);
         }
 
         /// <summary>

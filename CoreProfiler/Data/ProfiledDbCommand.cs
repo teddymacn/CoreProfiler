@@ -15,9 +15,7 @@ namespace CoreProfiler.Data
     {
         private readonly DbCommand _command;
         private readonly IDbProfiler _dbProfiler;
-        private DbConnection _dbConnection;
         private DbParameterCollection _dbParameterCollection;
-        private DbTransaction _dbTransaction;
 
         #region Properties
 
@@ -138,31 +136,11 @@ namespace CoreProfiler.Data
         {
             get
             {
-                if (_dbConnection == null && _command.Connection == null && (_command == null || _command.Connection == null))
-                {
-                    return null;
-                }
-
-                if (_dbConnection == null)
-                {
-                    var conn = _command.Connection;
-
-                    var profiledDbConnection = conn as ProfiledDbConnection;
-                    if (profiledDbConnection != null)
-                    {
-                        _dbConnection = profiledDbConnection;
-                    }
-                    else
-                    {
-                        _dbConnection = new ProfiledDbConnection(conn, _dbProfiler);
-                    }
-                }
-
-                return _dbConnection;
+                return _command.Connection;
             }
             set
             {
-                _command.Connection = _dbConnection = value;
+                _command.Connection = value;
             }
         }
 
@@ -201,31 +179,11 @@ namespace CoreProfiler.Data
         {
             get
             {
-                if (_command.Transaction == null)
-                {
-                    return null;
-                }
-
-                if (_dbTransaction == null)
-                {
-                    var trans = _command.Transaction;
-
-                    var profiledDbTransaction = trans as ProfiledDbTransaction;
-                    if (profiledDbTransaction != null)
-                    {
-                        _dbTransaction = profiledDbTransaction;
-                    }
-                    else
-                    {
-                        _dbTransaction = new ProfiledDbTransaction(trans, _dbProfiler);
-                    }
-                }
-
-                return _dbTransaction;
+                return _command.Transaction;
             }
             set
             {
-                _dbTransaction = value;
+                _command.Transaction = value;
             }
         }
 

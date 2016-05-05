@@ -6,7 +6,7 @@ namespace CoreProfiler.Data
     /// <summary>
     /// A wrapper of <see cref="DbTransaction"/> which supports DB profiling.
     /// </summary>
-    public class ProfiledDbTransaction : DbTransaction
+    internal class ProfiledDbTransaction : DbTransaction
     {
         private readonly DbTransaction _transaction;
         private readonly IDbProfiler _dbProfiler;
@@ -18,10 +18,12 @@ namespace CoreProfiler.Data
         /// Initializes a <see cref="ProfiledDbTransaction"/>.
         /// </summary>
         /// <param name="transaction">The <see cref="DbTransaction"/> to be profiled.</param>
+        /// <param name="connection">The <see cref="DbConnection"/>.</param>
         /// <param name="dbProfiler">The <see cref="IDbProfiler"/>.</param>
-        public ProfiledDbTransaction(DbTransaction transaction, IDbProfiler dbProfiler)
+        public ProfiledDbTransaction(DbTransaction transaction, DbConnection connection, IDbProfiler dbProfiler)
         {
             _transaction = transaction;
+            _dbConnection = connection ?? transaction.Connection;
             _dbProfiler = dbProfiler;
         }
 
@@ -42,28 +44,7 @@ namespace CoreProfiler.Data
         /// </summary>
         protected override DbConnection DbConnection
         {
-            get
-            {
-                if (_transaction.Connection == null)
-                {
-                    return null;
-                }
-
-                if (_dbConnection == null)
-                {
-                    var profiledDbConnection = _transaction.Connection as ProfiledDbConnection;
-                    if (profiledDbConnection != null)
-                    {
-                        _dbConnection = profiledDbConnection;
-                    }
-                    else
-                    {
-                        _dbConnection = new ProfiledDbConnection(_transaction.Connection, _dbProfiler);
-                    }
-                }
-
-                return _dbConnection;
-            }
+            get { return _dbConnection; }
         }
 
         /// <summary>
