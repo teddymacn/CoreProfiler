@@ -322,9 +322,13 @@ namespace CoreProfiler.Data
         /// </summary>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        public override Task<int> ExecuteNonQueryAsync(CancellationToken cancellationToken)
+        public override async Task<int> ExecuteNonQueryAsync(CancellationToken cancellationToken)
         {
-            return _command.ExecuteNonQueryAsync(cancellationToken);
+            var dbProfiler = _getDbProfiler();
+            if (dbProfiler == null) return (int)(await _command.ExecuteNonQueryAsync(cancellationToken));
+            
+            return (int)await dbProfiler.ExecuteDbCommandAsync(
+                DbExecuteType.NonQuery, _command, async () => { return await _command.ExecuteNonQueryAsync(cancellationToken); }, Tags);
         }
 
         /// <summary>
@@ -332,9 +336,13 @@ namespace CoreProfiler.Data
         /// </summary>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        public override Task<object> ExecuteScalarAsync(CancellationToken cancellationToken)
+        public override async Task<object> ExecuteScalarAsync(CancellationToken cancellationToken)
         {
-            return _command.ExecuteScalarAsync(cancellationToken);
+            var dbProfiler = _getDbProfiler();
+            if (dbProfiler == null) return await _command.ExecuteScalarAsync(cancellationToken);
+            
+            return await dbProfiler.ExecuteDbCommandAsync(
+                DbExecuteType.Scalar, _command, async () => { return await _command.ExecuteScalarAsync(cancellationToken); }, Tags);
         }
 
         #endregion

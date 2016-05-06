@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Data.Common;
+using System.Threading.Tasks;
 using CoreProfiler.Timings;
 
 namespace CoreProfiler.Data
@@ -72,6 +73,42 @@ namespace CoreProfiler.Data
             var reader = dataReader as ProfiledDbDataReader ??
                 new ProfiledDbDataReader(dataReader, this);
             _inProgressDataReaders[reader] = dbTiming;
+        }
+        
+        /// <summary>
+        /// Executes &amp; profiles the execution of the specified <see cref="DbCommand"/> asynchronously.
+        /// </summary>
+        /// <param name="executeType">The <see cref="DbExecuteType"/>.</param>
+        /// <param name="command">The <see cref="DbCommand"/> to be executed &amp; profiled.</param>
+        /// <param name="execute">
+        ///     The execute handler, 
+        ///     which should return a scalar value.
+        /// </param>
+        /// <param name="tags">The tags of the <see cref="DbTiming"/> which will be created internally.</param>
+        public async Task<object> ExecuteDbCommandAsync(DbExecuteType executeType, DbCommand command, Func<Task<object>> execute, TagCollection tags)
+        {
+            if (execute == null)
+            {
+                return null;
+            }
+            
+            if (executeType == DbExecuteType.Reader)
+                throw new NotSupportedException("ExecuteDbCommandAsync doesn't support executing data reader.");
+
+            if (command == null)
+            {
+                return await execute();
+            }
+
+            var dbTiming = new DbTiming(_profiler, executeType, command) { Tags = tags };
+            try
+            {
+                return await execute();
+            }
+            finally
+            {
+                dbTiming.Stop();
+            }
         }
 
         /// <summary>

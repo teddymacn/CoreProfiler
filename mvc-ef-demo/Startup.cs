@@ -59,7 +59,17 @@ namespace MvcEfSample
                     template: "{controller=Home}/{action=Child}");
             });
             
-            InitializeDatabase(app);
+            // InitializeDatabase is executed in async thread on app startup
+            // to profile its performance, we need to call ProfilingSession.Start()/Stop() explicitly
+            try
+            {
+                ProfilingSession.Start("InitializeDatabase");
+                InitializeDatabase(app);
+            }
+            finally
+            {
+                ProfilingSession.Stop();
+            }
         }
         
         private void InitializeDatabase(IApplicationBuilder app)
