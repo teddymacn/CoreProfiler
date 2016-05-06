@@ -15,7 +15,6 @@ namespace CoreProfiler.Data
     {
         private readonly DbCommand _command;
         private readonly Func<IDbProfiler> _getDbProfiler;
-        private DbParameterCollection _dbParameterCollection;
 
         #region Properties
 
@@ -176,24 +175,7 @@ namespace CoreProfiler.Data
         {
             get
             {
-                if (_command.Parameters == null && (_command == null || _command.Parameters == null))
-                {
-                    return null;
-                }
-
-                if (_dbParameterCollection == null)
-                {
-                    if (_command != null)
-                    {
-                        _dbParameterCollection = _command.Parameters;
-                    }
-                    else if (_command.Parameters != null)
-                    {
-                        _dbParameterCollection = new DbParameterCollectionWrapper(_command.Parameters);
-                    }
-                }
-
-                return _dbParameterCollection;
+                return _command.Parameters;
             }
         }
 
