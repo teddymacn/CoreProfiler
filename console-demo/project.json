@@ -12,15 +12,13 @@
     "copyToOutput":{
       "include": "coreprofiler.json"
     },
-    "emitEntryPoint": true
+    "emitEntryPoint": true,
+    "debugType": "portable"
   },
   "frameworks": {
     "netcoreapp1.0": {
       "imports": [
-        "portable-net45+wp80+win8+wpa81+dnxcore50",
-        "portable-net45+win8+wp8+wpa81",
-        "portable-net45+win8+wp8",
-        "dnxcore50"
+        "portable-dnxcore50+net45+win8+wp8+wpa81"
       ]
     }
   }

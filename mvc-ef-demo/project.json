@@ -16,7 +16,7 @@
     "CoreProfiler.Web": "1.0.0-*",
     "Microsoft.NETCore.App": {
       "type": "platform",
-      "version": "1.0.0-rc2-3002659"
+      "version": "1.0.0-rc2-3002608"
     }
   },
   "buildOptions":{
@@ -32,21 +32,8 @@
       "imports": [
         "portable-net45+wp80+win8+wpa81+dnxcore50",
         "portable-net45+win8+wp8+wpa81",
-        "portable-net45+win8+wp8",
-        "dnxcore50"
+        "portable-net45+win8+wp8"
       ]
     }
-  },
-  "tools": {
-    "Microsoft.AspNetCore.Server.IISIntegration.Tools": {
-      "version": "1.0.0-rc3-20765",
-      "imports": [
-        "portable-net45+wp80+win8+wpa81+dnxcore50",
-        "portable-net451+win8"
-      ]
-    }
-  },
-  "scripts": {
-    "postpublish": "dotnet publish-iis --publish-folder %publish:OutputPath% --framework %publish:FullTargetFramework%"
   }
 }
