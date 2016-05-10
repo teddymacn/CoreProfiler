@@ -1,5 +1,5 @@
 ﻿{
-  "version": "1.0.0-beta-20160505-2",
+  "version": "1.0.0-beta-20160510-1",
   "description": "CoreProfiler.Web - A .NET Core Profiling Library",
   "authors": [ "teddy.ma" ],
   "compilationOptions": {
@@ -25,16 +25,10 @@
     "licenseUrl": "https://mit-license.org/"
   },
   "frameworks": {
-    "net461": { },
-    "dnxcore50": {
-      "dependencies": {
-        "System.Runtime": "4.1.0-rc3-24102-00"
-      }
-    },
-    "netcore50": {
-      "dependencies": {
-        "System.Runtime": "4.1.0-rc3-24102-00"
-      }
+    "netstandard1.4": {
+      "imports": [
+        "portable-dnxcore50+net45+win8+wp8+wpa81"
+      ]
     }
   }
 }
