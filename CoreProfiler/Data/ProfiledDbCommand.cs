@@ -15,7 +15,6 @@ namespace CoreProfiler.Data
     {
         private readonly DbCommand _command;
         private readonly Func<IDbProfiler> _getDbProfiler;
-        private DbParameterCollection _dbParameterCollection;
 
         #region Properties
 
@@ -176,24 +175,7 @@ namespace CoreProfiler.Data
         {
             get
             {
-                if (_command.Parameters == null && (_command == null || _command.Parameters == null))
-                {
-                    return null;
-                }
-
-                if (_dbParameterCollection == null)
-                {
-                    if (_command != null)
-                    {
-                        _dbParameterCollection = _command.Parameters;
-                    }
-                    else if (_command.Parameters != null)
-                    {
-                        _dbParameterCollection = new DbParameterCollectionWrapper(_command.Parameters);
-                    }
-                }
-
-                return _dbParameterCollection;
+                return _command.Parameters;
             }
         }
 
@@ -322,9 +304,13 @@ namespace CoreProfiler.Data
         /// </summary>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        public override Task<int> ExecuteNonQueryAsync(CancellationToken cancellationToken)
+        public override async Task<int> ExecuteNonQueryAsync(CancellationToken cancellationToken)
         {
-            return _command.ExecuteNonQueryAsync(cancellationToken);
+            var dbProfiler = _getDbProfiler();
+            if (dbProfiler == null) return (int)(await _command.ExecuteNonQueryAsync(cancellationToken));
+            
+            return (int)await dbProfiler.ExecuteDbCommandAsync(
+                DbExecuteType.NonQuery, _command, async () => { return await _command.ExecuteNonQueryAsync(cancellationToken); }, Tags);
         }
 
         /// <summary>
@@ -332,9 +318,13 @@ namespace CoreProfiler.Data
         /// </summary>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        public override Task<object> ExecuteScalarAsync(CancellationToken cancellationToken)
+        public override async Task<object> ExecuteScalarAsync(CancellationToken cancellationToken)
         {
-            return _command.ExecuteScalarAsync(cancellationToken);
+            var dbProfiler = _getDbProfiler();
+            if (dbProfiler == null) return await _command.ExecuteScalarAsync(cancellationToken);
+            
+            return await dbProfiler.ExecuteDbCommandAsync(
+                DbExecuteType.Scalar, _command, async () => { return await _command.ExecuteScalarAsync(cancellationToken); }, Tags);
         }
 
         #endregion

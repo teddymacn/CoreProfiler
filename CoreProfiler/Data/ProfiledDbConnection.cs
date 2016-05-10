@@ -172,14 +172,11 @@ namespace CoreProfiler.Data
         {
             if (disposing)
             {
-                if (_connection != null)
-                {
-                    _connection.StateChange -= StateChangeHandler;
+                _connection.StateChange -= StateChangeHandler;
 
-                    if (_connection.State != ConnectionState.Closed)
-                    {
-                        _connection.Dispose();
-                    }
+                if (_connection.State != ConnectionState.Closed)
+                {
+                    _connection.Dispose();
                 }
             }
 

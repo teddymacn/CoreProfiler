@@ -46,6 +46,9 @@ namespace MvcEfSample.Controllers
                         var result = await httpClient.GetStringAsync(uri);
                     }
                 });
+                
+                // test profiling execute command asyncrhonously
+                await dbContext.Database.ExecuteSqlCommandAsync("select * from Articles");
                     
                 using (ProfilingSession.Current.Step("Render View"))      
                 {         

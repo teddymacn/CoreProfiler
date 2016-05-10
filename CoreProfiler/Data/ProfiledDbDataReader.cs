@@ -444,12 +444,7 @@ namespace CoreProfiler.Data
         {
             get
             {
-                if (_dataReader != null)
-                {
-                    return _dataReader.HasRows;
-                }
-
-                return true;
+                return _dataReader.HasRows;
             }
         }
 

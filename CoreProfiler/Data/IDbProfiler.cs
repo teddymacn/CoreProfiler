@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Data.Common;
+using System.Threading.Tasks;
 using CoreProfiler.Timings;
 
 namespace CoreProfiler.Data
@@ -21,6 +22,18 @@ namespace CoreProfiler.Data
         /// </param>
         /// <param name="tags">The tags of the <see cref="DbTiming"/> which will be created internally.</param>
         void ExecuteDbCommand(DbExecuteType executeType, DbCommand command, Func<DbDataReader> execute, TagCollection tags);
+
+        /// <summary>
+        /// Executes &amp; profiles the execution of the specified <see cref="DbCommand"/> asynchronously.
+        /// </summary>
+        /// <param name="executeType">The <see cref="DbExecuteType"/>.</param>
+        /// <param name="command">The <see cref="DbCommand"/> to be executed &amp; profiled.</param>
+        /// <param name="execute">
+        ///     The execute handler, 
+        ///     which should return a scalar value.
+        /// </param>
+        /// <param name="tags">The tags of the <see cref="DbTiming"/> which will be created internally.</param>
+        Task<object> ExecuteDbCommandAsync(DbExecuteType executeType, DbCommand command, Func<Task<object>> execute, TagCollection tags);
 
         /// <summary>
         /// Notifies the profiler that the data reader has finished reading
