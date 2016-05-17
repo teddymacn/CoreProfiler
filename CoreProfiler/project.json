@@ -1,16 +1,16 @@
 ﻿{
-  "version": "1.0.0-beta-20160510-1",
+  "version": "1.0.0-rc2-20160517-1",
   "description": "CoreProfiler - A .NET Core Profiling Library",
   "authors": [ "teddy.ma" ],
   "compilationOptions": {
     "emitEntryPoint": false
   },
   "dependencies": {
-    "Microsoft.Extensions.Logging": "1.0.0-rc3-20765",
-    "Microsoft.Extensions.Configuration.Abstractions": "1.0.0-rc3-20765",
-    "Microsoft.Extensions.Configuration": "1.0.0-rc3-20765",
-    "Microsoft.Extensions.Configuration.Json": "1.0.0-rc3-20765",
-    "Microsoft.Extensions.Configuration.Binder": "1.0.0-rc3-20765"
+    "Microsoft.Extensions.Logging": "1.0.0-rc2-final",
+    "Microsoft.Extensions.Configuration.Abstractions": "1.0.0-rc2-final",
+    "Microsoft.Extensions.Configuration": "1.0.0-rc2-final",
+    "Microsoft.Extensions.Configuration.Json": "1.0.0-rc2-final",
+    "Microsoft.Extensions.Configuration.Binder": "1.0.0-rc2-final"
   },
   "buildOptions":{
     "embed": {
@@ -28,15 +28,15 @@
     "licenseUrl": "https://mit-license.org/"
   },
   "frameworks": {
-    "netstandard1.4": {
+    "netstandard1.3": {
       "imports": [
         "portable-dnxcore50+net45+win8+wp8+wpa81"
       ],
       "dependencies": {
-        "System.Data.Common": "4.0.1-rc3-24102-00",
-        "System.Text.RegularExpressions": "4.1.0-rc3-24102-00",
-        "System.Reflection.TypeExtensions": "4.1.0-rc3-24102-00",
-        "System.Threading.Thread": "4.0.0-rc3-24102-00"
+        "System.Data.Common": "4.0.1-rc2-24027",
+        "System.Text.RegularExpressions": "4.0.12-rc2-24027",
+        "System.Reflection.TypeExtensions": "4.1.0-rc2-24027",
+        "System.Threading.Thread": "4.0.0-rc2-24027"
       }
     }
   }

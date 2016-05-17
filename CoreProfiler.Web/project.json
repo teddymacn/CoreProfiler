@@ -1,5 +1,5 @@
 ﻿{
-  "version": "1.0.0-beta-20160510-1",
+  "version": "1.0.0-rc2-20160517-1",
   "description": "CoreProfiler.Web - A .NET Core Profiling Library",
   "authors": [ "teddy.ma" ],
   "compilationOptions": {
@@ -7,7 +7,7 @@
   },
   "dependencies": {
     "CoreProfiler": "1.0.0-*",
-    "Microsoft.AspNetCore.Server.Kestrel": "1.0.0-rc3-20765"
+    "Microsoft.AspNetCore.Server.Kestrel": "1.0.0-rc2-final"
   },
   "buildOptions":{
     "embed": {
@@ -25,7 +25,7 @@
     "licenseUrl": "https://mit-license.org/"
   },
   "frameworks": {
-    "netstandard1.4": {
+    "netstandard1.3": {
       "imports": [
         "portable-dnxcore50+net45+win8+wp8+wpa81"
       ]
