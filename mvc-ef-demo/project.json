@@ -19,13 +19,20 @@
       "version": "1.0.0-rc2-*"
     }
   },
-  "buildOptions":{
-    "copyToOutput":{
+  "buildOptions": {
+    "copyToOutput": {
       "include": "wwwroot;Views;coreprofiler.json"
     },
     "preserveCompilationContext": true,
     "emitEntryPoint": true,
     "debugType": "portable"
+  },
+  "publishOptions": {
+    "include": [
+    "wwwroot",
+    "Views",
+    "coreprofiler.json"
+    ]
   },
   "frameworks": {
     "netcoreapp1.0": {
@@ -35,5 +42,17 @@
         "portable-net45+win8+wp8"
       ]
     }
+  },
+  "tools": {
+    "Microsoft.AspNetCore.Server.IISIntegration.Tools": {
+      "version": "1.0.0-*",
+      "imports": [
+        "portable-net45+wp80+win8+wpa81+dnxcore50",
+        "portable-net451+win8"
+      ]
+    }
+  },
+  "scripts": {
+    "postpublish": "dotnet publish-iis --publish-folder %publish:OutputPath% --framework %publish:FullTargetFramework%"
   }
 }

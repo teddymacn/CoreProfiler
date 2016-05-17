@@ -47,6 +47,8 @@ namespace ConsoleApplication
             }
             
             ProfilingSession.Stop();
+
+            Console.ReadKey();
         }
     }
 }
