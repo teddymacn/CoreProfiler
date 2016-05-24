@@ -5,6 +5,7 @@ using System.Net;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml;
 using CoreProfiler.Timings;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Extensions;
@@ -247,29 +248,37 @@ namespace CoreProfiler.Web
                             sb.Append(keyValue.Key);
                             sb.Append(":\r\n");
                             var value = keyValue.Value.Trim();
-                            // TODO: indent format xml when XmlDocument is supported
-                            // if (value.StartsWith("<"))
-                            // {
-                            //     // asuume it is XML
-                            //     // try to format XML with indent
-                            //     var doc = new XmlDocument();
-                            //     try
-                            //     {
-                            //         doc.LoadXml(value);
-                            //         var ms = new MemoryStream();
-                            //         var writer = new XmlTextWriter(ms, null) {Formatting = Formatting.Indented};
-                            //         doc.Save(writer);
-                            //         ms.Seek(0, SeekOrigin.Begin);
-                            //         using (var sr = new StreamReader(ms))
-                            //         {
-                            //             value = sr.ReadToEnd();
-                            //         }
-                            //     }
-                            //     catch
-                            //     {
-                            //         //squash exception
-                            //     }
-                            // }
+
+                            if (value.StartsWith("<"))
+                            {
+                                // asuume it is XML
+                                // try to format XML with indent
+                                var doc = new XmlDocument();
+                                try
+                                {
+                                    doc.LoadXml(value);
+                                    var ms = new MemoryStream();
+                                    var xwSettings = new XmlWriterSettings
+                                    {
+                                        Encoding = new UTF8Encoding(false),
+                                        Indent = true,
+                                        IndentChars = "\t"
+                                    };
+                                    using (var writer = XmlWriter.Create(ms, xwSettings))
+                                    {
+                                        doc.Save(writer);
+                                        ms.Seek(0, SeekOrigin.Begin);
+                                        using (var sr = new StreamReader(ms))
+                                        {
+                                            value = sr.ReadToEnd();
+                                        }
+                                    }
+                                }
+                                catch
+                                {
+                                    //squash exception
+                                }
+                            }
                             sb.Append(value);
                             sb.Append("\r\n\r\n");
                         }
