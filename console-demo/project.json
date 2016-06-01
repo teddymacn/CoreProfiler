@@ -9,11 +9,13 @@
     }
   },
   "buildOptions":{
-    "copyToOutput":{
-      "include": "coreprofiler.json"
-    },
     "emitEntryPoint": true,
     "debugType": "portable"
+  },
+  "publishOptions": {
+    "include": [
+	  "coreprofiler.json"
+    ]
   },
   "frameworks": {
     "netcoreapp1.0": {

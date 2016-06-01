@@ -20,20 +20,15 @@
     }
   },
   "buildOptions": {
-    "copyToOutput": {
-      "include": [
-        "coreprofiler.json"
-	  ]
-    },
     "preserveCompilationContext": true,
     "emitEntryPoint": true,
     "debugType": "portable"
   },
   "publishOptions": {
     "include": [
-    "wwwroot",
-    "Views",
-    "coreprofiler.json"
+      "wwwroot",
+      "Views",
+      "coreprofiler.json"
     ]
   },
   "frameworks": {

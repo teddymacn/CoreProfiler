@@ -30,7 +30,7 @@ Basic usage
 
 	app.UseCoreProfiler();
 
-- Add a [coreprofiler.json](https://github.com/teddymacn/CoreProfiler/blob/master/mvc-ef-demo/coreprofiler.json) file to your project and make sure it is in [the include of buildOptions and publishOptions in your project.json](https://github.com/teddymacn/CoreProfiler/blob/master/mvc-ef-demo/project.json#L23).
+- Add a [coreprofiler.json](https://github.com/teddymacn/CoreProfiler/blob/master/mvc-ef-demo/coreprofiler.json) file to your project and make sure it is in [the include of publishOptions in your project.json](https://github.com/teddymacn/CoreProfiler/blob/master/mvc-ef-demo/project.json#L28).
 
 - If you want to profile DB queries, you need to wrap DbConnection instances like for example: [here](https://github.com/teddymacn/CoreProfiler/blob/master/mvc-ef-demo/Startup.cs#L24).
 
