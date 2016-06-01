@@ -21,7 +21,9 @@
   },
   "buildOptions": {
     "copyToOutput": {
-      "include": "wwwroot;Views;coreprofiler.json"
+      "include": [
+        "coreprofiler.json"
+	  ]
     },
     "preserveCompilationContext": true,
     "emitEntryPoint": true,
