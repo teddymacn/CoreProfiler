@@ -1,20 +1,23 @@
 {
-  "version": "1.0.0-*",
+  "version": "1.0.0",
   "dependencies": {
-    "CoreProfiler": "1.0.0-*",
-    "Microsoft.Extensions.Logging.Console": "1.0.0-rc2-final",
+    "CoreProfiler": "1.0.0",
+    "Microsoft.Extensions.Logging.Console": "1.0.0",
     "Microsoft.NETCore.App": {
       "type": "platform",
-      "version": "1.0.0-rc2-*"
+      "version": "1.0.0"
     }
   },
   "buildOptions":{
     "emitEntryPoint": true,
-    "debugType": "portable"
+    "debugType": "portable",
+    "copyToOutput": [
+      "coreprofiler.json"
+    ]
   },
   "publishOptions": {
     "include": [
-	  "coreprofiler.json"
+	    "coreprofiler.json"
     ]
   },
   "frameworks": {

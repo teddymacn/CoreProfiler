@@ -1,15 +1,15 @@
 {
-  "version": "1.0.0-rc2-20160517-1",
+  "version": "1.0.0",
   "description": "CoreProfiler.Web - A .NET Core Profiling Library",
   "authors": [ "teddy.ma" ],
   "compilationOptions": {
     "emitEntryPoint": false
   },
   "dependencies": {
-    "CoreProfiler": "1.0.0-*",
-    "Microsoft.AspNetCore.Server.Kestrel": "1.0.0-rc2-final",
-    "System.Text.Encoding.Extensions": "4.0.11-rc2-24027",
-    "System.Xml.XmlDocument": "4.0.1-rc2-24027"
+    "CoreProfiler": "1.0.0",
+    "Microsoft.AspNetCore.Server.Kestrel": "1.0.0",
+    "System.Text.Encoding.Extensions": "4.0.11",
+    "System.Xml.XmlDocument": "4.0.1"
   },
   "buildOptions":{
     "embed": {
