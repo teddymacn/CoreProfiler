@@ -203,35 +203,38 @@ namespace CoreProfiler.Web
                         r => r.Id.ToString().ToLowerInvariant() == uuid.ToLowerInvariant());
                 if (result != null)
                 {
-                    // try to import drill down results
-                    foreach (var timing in result.Timings)
+                    if (TryToImportDrillDownResult)
                     {
-                        if (timing.Data == null || !timing.Data.ContainsKey(CorrelationId)) continue;
-                        Guid parentResultId;
-                        if (!Guid.TryParse(timing.Data[CorrelationId], out parentResultId)
-                            || ProfilingSession.CircularBuffer.Any(r => r.Id == parentResultId)) continue;
-
-                        string remoteAddress;
-                        if (!timing.Data.TryGetValue("remoteAddress", out remoteAddress))
-                            remoteAddress = timing.Name;
-
-                        if (!Uri.IsWellFormedUriString(remoteAddress, UriKind.Absolute)) continue;
-
-                        if (!remoteAddress.StartsWith("http", StringComparison.OrdinalIgnoreCase)) continue;
-
-                        var pos = remoteAddress.IndexOf("?");
-                        if (pos > 0) remoteAddress = remoteAddress.Substring(0, pos);
-                        if (remoteAddress.Split('/').Last().Contains(".")) remoteAddress = remoteAddress.Substring(0, remoteAddress.LastIndexOf("/"));
-
-                        try
+                        // try to import drill down results
+                        foreach (var timing in result.Timings)
                         {
-                            await ImportSessionsFromUrl(remoteAddress + "/coreprofiler/view?" + CorrelationId + "=" + parentResultId.ToString("N"));
-                        }
-                        catch (Exception ex)
-                        {
-                            System.Diagnostics.Debug.Write(ex.Message);
+                            if (timing.Data == null || !timing.Data.ContainsKey(CorrelationId)) continue;
+                            Guid parentResultId;
+                            if (!Guid.TryParse(timing.Data[CorrelationId], out parentResultId)
+                                || ProfilingSession.CircularBuffer.Any(r => r.Id == parentResultId)) continue;
 
-                            //ignore exceptions
+                            string remoteAddress;
+                            if (!timing.Data.TryGetValue("remoteAddress", out remoteAddress))
+                                remoteAddress = timing.Name;
+
+                            if (!Uri.IsWellFormedUriString(remoteAddress, UriKind.Absolute)) continue;
+
+                            if (!remoteAddress.StartsWith("http", StringComparison.OrdinalIgnoreCase)) continue;
+
+                            var pos = remoteAddress.IndexOf("?");
+                            if (pos > 0) remoteAddress = remoteAddress.Substring(0, pos);
+                            if (remoteAddress.Split('/').Last().Contains(".")) remoteAddress = remoteAddress.Substring(0, remoteAddress.LastIndexOf("/"));
+
+                            try
+                            {
+                                await ImportSessionsFromUrl(remoteAddress + "/coreprofiler/view?" + CorrelationId + "=" + parentResultId.ToString("N"));
+                            }
+                            catch (Exception ex)
+                            {
+                                System.Diagnostics.Debug.Write(ex.Message);
+
+                                //ignore exceptions
+                            }
                         }
                     }
 

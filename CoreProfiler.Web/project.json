@@ -1,12 +1,12 @@
 {
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "CoreProfiler.Web - A .NET Core Profiling Library",
   "authors": [ "teddy.ma" ],
   "compilationOptions": {
     "emitEntryPoint": false
   },
   "dependencies": {
-    "CoreProfiler": "1.0.1",
+    "CoreProfiler": "1.0.2",
     "Microsoft.AspNetCore.Server.Kestrel": "1.0.0",
     "Newtonsoft.Json": "9.0.1",
     "System.Net.Http": "4.1.0",
