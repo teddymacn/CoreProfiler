@@ -28,7 +28,7 @@ Basic usage
 
 - In the Startup.cs file, you need to add the code below as the first app.UseXXX() pipeline to enable CoreProfiler profiling:
 
-	app.UseCoreProfiler();
+	app.UseCoreProfiler(drillDown:true); //if drillDown=true, try to drill down child requests from external apps when view profiling results
 
 - Add a [coreprofiler.json](https://github.com/teddymacn/CoreProfiler/blob/master/mvc-ef-demo/coreprofiler.json) file to your project and make sure it is in [the include of publishOptions in your project.json](https://github.com/teddymacn/CoreProfiler/blob/master/mvc-ef-demo/project.json#L28).
 

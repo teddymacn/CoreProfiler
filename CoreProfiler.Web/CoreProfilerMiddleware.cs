@@ -10,6 +10,8 @@ using CoreProfiler.Timings;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.Extensions.Logging;
+using System.Collections.Generic;
+using System.Net.Http;
 
 namespace CoreProfiler.Web
 {
@@ -17,9 +19,14 @@ namespace CoreProfiler.Web
     {
         private readonly RequestDelegate _next;
         private readonly ILogger _logger;
-        
-        private const string ViewUrl = "/coreprofiler/view";
+
         public const string XCorrelationId = "X-CoreProfiler-Correlation-Id";
+
+        private const string ViewUrl = "/coreprofiler/view";
+        private const string ViewUrlNano = "/nanoprofiler/view";
+        private const string Import = "import";
+        private const string Export = "?export";
+        private const string CorrelationId = "correlationId";
 
         /// <summary>
         /// The default Html of the view-result index page: ~/coreprofiler/view
@@ -30,6 +37,11 @@ namespace CoreProfiler.Web
         /// The default Html of the view-result page: ~/coreprofiler/view/{uuid}
         /// </summary>
         public static string ViewResultHeaderHtml = "<h1>CoreProfiler Profiling Result</h1>";
+
+        /// <summary>
+        /// Tries to import drilldown result by remote address of the step
+        /// </summary>
+        public static bool TryToImportDrillDownResult;
 
         /// <summary>
         /// The handler to search for child profiling session by correlationId.
@@ -99,8 +111,39 @@ namespace CoreProfiler.Web
             }
             
             // view index of all latest results: ~/coreprofiler/view
-            if (path.EndsWith(ViewUrl, StringComparison.OrdinalIgnoreCase))
+            if (path.EndsWith(ViewUrl, StringComparison.OrdinalIgnoreCase)
+                || path.EndsWith(ViewUrlNano, StringComparison.OrdinalIgnoreCase))
             {
+                // try to handle import/export first
+                var import = context.Request.Query[Import];
+                if (Uri.IsWellFormedUriString(import, UriKind.Absolute))
+                {
+                    await ImportSessionsFromUrl(import);
+                    return;
+                }
+
+                if (context.Request.QueryString.ToString() == Export)
+                {
+                    context.Response.ContentType = "application/json";
+
+                    await context.Response.WriteAsync(ImportSerializer.SerializeSessions(ProfilingSession.CircularBuffer));
+                    return;
+                }
+
+                var exportCorrelationId = context.Request.Query[CorrelationId];
+                if (!string.IsNullOrEmpty(exportCorrelationId))
+                {
+                    context.Response.ContentType = "application/json";
+                    var result = ProfilingSession.CircularBuffer.FirstOrDefault(
+                            r => r.Data != null && r.Data.ContainsKey(CorrelationId) && r.Data[CorrelationId] == exportCorrelationId);
+                    if (result != null)
+                    {
+                        await context.Response.WriteAsync(ImportSerializer.SerializeSessions(new[] { result }));
+                        return;
+                    }
+                }
+
+                // render result list view
                 context.Response.ContentType = "text/html";
 
                 var sb = new StringBuilder();
@@ -160,6 +203,39 @@ namespace CoreProfiler.Web
                         r => r.Id.ToString().ToLowerInvariant() == uuid.ToLowerInvariant());
                 if (result != null)
                 {
+                    // try to import drill down results
+                    foreach (var timing in result.Timings)
+                    {
+                        if (timing.Data == null || !timing.Data.ContainsKey(CorrelationId)) continue;
+                        Guid parentResultId;
+                        if (!Guid.TryParse(timing.Data[CorrelationId], out parentResultId)
+                            || ProfilingSession.CircularBuffer.Any(r => r.Id == parentResultId)) continue;
+
+                        string remoteAddress;
+                        if (!timing.Data.TryGetValue("remoteAddress", out remoteAddress))
+                            remoteAddress = timing.Name;
+
+                        if (!Uri.IsWellFormedUriString(remoteAddress, UriKind.Absolute)) continue;
+
+                        if (!remoteAddress.StartsWith("http", StringComparison.OrdinalIgnoreCase)) continue;
+
+                        var pos = remoteAddress.IndexOf("?");
+                        if (pos > 0) remoteAddress = remoteAddress.Substring(0, pos);
+                        if (remoteAddress.Split('/').Last().Contains(".")) remoteAddress = remoteAddress.Substring(0, remoteAddress.LastIndexOf("/"));
+
+                        try
+                        {
+                            await ImportSessionsFromUrl(remoteAddress + "/coreprofiler/view?" + CorrelationId + "=" + parentResultId.ToString("N"));
+                        }
+                        catch (Exception ex)
+                        {
+                            System.Diagnostics.Debug.Write(ex.Message);
+
+                            //ignore exceptions
+                        }
+                    }
+
+                    // render result tree
                     sb.Append("<div class=\"css-treeview\">");
 
                     // print summary
@@ -474,7 +550,41 @@ namespace CoreProfiler.Web
 
             return null;
         }
-        
+
+        private async Task ImportSessionsFromUrl(string importUrl)
+        {
+            IEnumerable<ITimingSession> sessions = null;
+
+            using (var httpClient = new HttpClient())
+            {
+                var response = await httpClient.GetAsync(importUrl);
+                if (response.StatusCode == HttpStatusCode.OK)
+                {
+                    var content = await response.Content.ReadAsStringAsync();
+                    sessions = ImportSerializer.DeserializeSessions(content);
+                }
+            }
+
+            if (sessions == null)
+            {
+                return;
+            }
+
+            if (ProfilingSession.CircularBuffer == null)
+            {
+                return;
+            }
+
+            var existingIds = ProfilingSession.CircularBuffer.Select(session => session.Id).ToList();
+            foreach (var session in sessions)
+            {
+                if (!existingIds.Contains(session.Id))
+                {
+                    ProfilingSession.CircularBuffer.Add(session);
+                }
+            }
+        }
+
         #endregion
     }
 }

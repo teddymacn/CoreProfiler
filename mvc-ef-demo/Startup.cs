@@ -41,7 +41,7 @@ namespace MvcEfSample
             loggerFactory.AddConsole(LogLevel.Debug);
             
             app.UseStaticFiles();
-            app.UseCoreProfiler();
+            app.UseCoreProfiler(true);
             
             if (env.IsDevelopment())
             {

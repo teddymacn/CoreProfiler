@@ -1,5 +1,5 @@
 ﻿{
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "CoreProfiler - A .NET Core Profiling Library",
   "authors": [ "teddy.ma" ],
   "compilationOptions": {
@@ -23,7 +23,7 @@
   },
   "packOptions": {
     "title": "CoreProfiler",
-    "tags": [ "coreclr", "profiling", ".netcore", "miniprofiler", "nanoprofiler", "performance", "timing", "profiler" ],
+    "tags": [ "coreclr", "profiling", ".netcore", "coreprofiler", "miniprofiler", "nanoprofiler", "performance", "timing", "profiler" ],
     "projectUrl": "https://github.com/teddymacn/coreprofiler",
     "licenseUrl": "https://mit-license.org/"
   },
