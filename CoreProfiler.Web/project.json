@@ -1,19 +1,19 @@
 {
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "CoreProfiler.Web - A .NET Core Profiling Library",
   "authors": [ "teddy.ma" ],
-  "compilationOptions": {
-    "emitEntryPoint": false
-  },
   "dependencies": {
-    "CoreProfiler": "1.0.2",
+    "CoreProfiler": "1.0.3",
     "Microsoft.AspNetCore.Server.Kestrel": "1.0.0",
     "Newtonsoft.Json": "9.0.1",
     "System.Net.Http": "4.1.0",
     "System.Text.Encoding.Extensions": "4.0.11",
-    "System.Xml.XmlDocument": "4.0.1"
+    "System.Xml.XmlDocument": "4.0.1",
+    "System.ServiceModel.Primitives": "4.1.0",
+    "System.ServiceModel.Http": "4.1.0"
   },
-  "buildOptions":{
+  "buildOptions": {
+    "emitEntryPoint": false,
     "embed": {
       "include": "icons.png;treeview_timeline.css",
       "mappings": {

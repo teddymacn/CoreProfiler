@@ -20,7 +20,7 @@ namespace CoreProfiler.Web
         private readonly RequestDelegate _next;
         private readonly ILogger _logger;
 
-        public const string XCorrelationId = "X-CoreProfiler-Correlation-Id";
+        public const string XCorrelationId = "X-ET-Correlation-Id";
 
         private const string ViewUrl = "/coreprofiler/view";
         private const string ViewUrlNano = "/nanoprofiler/view";

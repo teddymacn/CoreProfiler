@@ -1,0 +1,28 @@
+{
+  "version": "1.0.3",
+  "description": "CoreProfiler.Wcf - A .NET Core Profiling Library",
+  "authors": [ "teddy.ma" ],
+  "dependencies": {
+    "CoreProfiler": "1.0.3",
+    "System.Net.Http": "4.1.0",
+    "System.Xml.XmlDocument": "4.0.1",
+    "System.ServiceModel.Primitives": "4.1.0",
+    "System.ServiceModel.Http": "4.1.0"
+  },
+  "buildOptions": {
+    "emitEntryPoint": false
+  },
+  "packOptions": {
+    "title": "CoreProfiler.Wcf",
+    "tags": [ "coreclr", "profiling", ".netcore", "coreprofiler", "miniprofiler", "nanoprofiler", "performance", "timing", "profiler", "wcf" ],
+    "projectUrl": "https://github.com/teddymacn/coreprofiler",
+    "licenseUrl": "https://mit-license.org/"
+  },
+  "frameworks": {
+    "netstandard1.3": {
+      "imports": [
+        "portable-dnxcore50+net45+win8+wp8+wpa81"
+      ]
+    }
+  }
+}

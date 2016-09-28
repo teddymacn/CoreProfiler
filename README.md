@@ -24,7 +24,18 @@ CoreProfiler is released under the [MIT license](https://mit-license.org/).
 Basic usage
 -----------
 
-- For profiling a web applications, you need to add references to both CoreProfiler and CoreProfiler.Web.
+- For profiling a web applications, you need to add references to both CoreProfiler and CoreProfiler.Web packages.
+
+- For profiling a console or web application which call wcf services, please also reference Console.Wcf package.
+
+    To enable wcf profiling in a .net core project, you need to implement the partial method below for each of your wcf client:
+
+    ``` csharp
+    static partial void ConfigureEndpoint(ServiceEndpoint serviceEndpoint, ClientCredentials clientCredentials)
+    {
+        serviceEndpoint.EndpointBehaviors.Add(new WcfProfilingBehavior());
+    }
+    ```
 
 - In the Startup.cs file, you need to add the code below as the first app.UseXXX() pipeline to enable CoreProfiler profiling:
 
