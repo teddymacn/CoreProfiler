@@ -50,3 +50,10 @@ Basic usage
 You can check the [mvc-ef-demo](https://github.com/teddymacn/CoreProfiler/tree/master/mvc-ef-demo) sample for how to enable profiling in a mvc + entityframeworkcore web application.
 
 You can check the [console-demo](https://github.com/teddymacn/CoreProfiler/blob/master/console-demo) sample for how to use JsonProfilingStorage to persist logs and [how to start/stop profiling in a non-web application](https://github.com/teddymacn/CoreProfiler/blob/master/console-demo/Program.cs).
+
+
+Sample Projects
+---------------
+
+- [cross-app-profiling-demo](https://github.com/teddymacn/cross-app-profiling-demo) - Sample projects to demonstrate cross-application performance profiling with coreprofiler/nanoprofiler.
+
