@@ -253,7 +253,7 @@ namespace CoreProfiler
             var config = ConfigurationHelper.GetConfiguration();
             if (config == null) return;
 
-            var logProviderName = config.GetValue<string>("logProvider");
+            var logProviderName = config["logProvider"];
             if (!string.IsNullOrEmpty(logProviderName))
             {
                 var logProviderType = Type.GetType(logProviderName, true);
@@ -278,13 +278,13 @@ namespace CoreProfiler
                 }
             }
 
-            var providerName = config.GetValue<string>("provider");
+            var providerName = config["provider"];
             if (string.IsNullOrEmpty(providerName))
             {
                 // load configuration from config directly
 
                 // load storage
-                var storageName = config.GetValue<string>("storage");
+                var storageName = config["storage"];
                 if (!string.IsNullOrEmpty(storageName))
                 {
                     var type = Type.GetType(storageName, true);
@@ -292,7 +292,7 @@ namespace CoreProfiler
                 }
 
                 // load CircularBuffer size
-                var circularBufferSizeStr = config.GetValue<string>("circularBufferSize");
+                var circularBufferSizeStr = config["circularBufferSize"];
                 if (!string.IsNullOrEmpty(circularBufferSizeStr))
                 {
                     var circularBufferSize = int.Parse(circularBufferSizeStr);
@@ -303,39 +303,38 @@ namespace CoreProfiler
                 var filtersSection = config.GetSection("filters");
                 if (filtersSection != null)
                 {
-                    var filters = new List<FilterConfigurationItem>();
-                    filtersSection.Bind(filters);
+                    var filters = filtersSection.GetChildren();
                     
                     foreach (var filter in filters)
                     {
-                        if (string.IsNullOrWhiteSpace(filter.Type) ||
-                        string.Equals(filter.Type, "contain", StringComparison.OrdinalIgnoreCase))
+                        var type = filter["type"];
+                        if (string.IsNullOrWhiteSpace(type) || string.Equals(type, "contain", StringComparison.OrdinalIgnoreCase))
                         {
-                            ProfilingFilters.Add(new NameContainsProfilingFilter(filter.Value));
+                            ProfilingFilters.Add(new NameContainsProfilingFilter(filter["value"]));
                         }
-                        else if (string.Equals(filter.Type, "regex", StringComparison.OrdinalIgnoreCase))
+                        else if (string.Equals(type, "regex", StringComparison.OrdinalIgnoreCase))
                         {
-                            ProfilingFilters.Add(new RegexProfilingFilter(new Regex(filter.Value, RegexOptions.Compiled | RegexOptions.IgnoreCase)));
+                            ProfilingFilters.Add(new RegexProfilingFilter(new Regex(filter["value"], RegexOptions.Compiled | RegexOptions.IgnoreCase)));
                         }
-                        else if (string.Equals(filter.Type, "disable", StringComparison.OrdinalIgnoreCase))
+                        else if (string.Equals(type, "disable", StringComparison.OrdinalIgnoreCase))
                         {
                             ProfilingFilters.Add(new DisableProfilingFilter());
                         }
                         else
                         {
-                            var filterType = Type.GetType(filter.Type, true);
+                            var filterType = Type.GetType(type, true);
                             if (!typeof(IProfilingFilter).IsAssignableFrom(filterType))
                             {
-                                throw new Exception("Invalid type name: " + filter.Type);
+                                throw new Exception("Invalid type name: " + type);
                             }
 
                             try
                             {
-                                ProfilingFilters.Add((IProfilingFilter)Activator.CreateInstance(filterType, new object[] { filter.Value }));
+                                ProfilingFilters.Add((IProfilingFilter)Activator.CreateInstance(filterType, new object[] { filter["value"] }));
                             }
                             catch (Exception ex)
                             {
-                                throw new Exception("Invalid type name: " + filter.Type, ex);
+                                throw new Exception("Invalid type name: " + type, ex);
                             }
                         }
                     }

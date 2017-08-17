@@ -1,8 +1,8 @@
 
 using Microsoft.EntityFrameworkCore;
-using MvcEfSample.Models;
+using mvc_ef_demo.Models;
 
-namespace MvcEfSample
+namespace mvc_ef_demo
 {
     public class WebsiteDbContext : DbContext
     {

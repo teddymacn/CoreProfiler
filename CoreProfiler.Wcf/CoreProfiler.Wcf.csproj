@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <Description>CoreProfiler.Wcf - A .NET Core Profiling Library</Description>
+    <VersionPrefix>1.1.1</VersionPrefix>
+    <Authors>teddy.ma</Authors>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <AssemblyName>CoreProfiler.Wcf</AssemblyName>
+    <OutputType>Library</OutputType>
+    <PackageId>CoreProfiler.Wcf</PackageId>
+    <PackageTags>coreclr;profiling;.netcore;coreprofiler;miniprofiler;nanoprofiler;performance;timing;profiler;wcf</PackageTags>
+    <PackageProjectUrl>https://github.com/teddymacn/coreprofiler</PackageProjectUrl>
+    <PackageLicenseUrl>https://mit-license.org/</PackageLicenseUrl>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.ServiceModel.Http" Version="4.4.0" />
+    <PackageReference Include="System.ServiceModel.Primitives" Version="4.4.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\CoreProfiler\CoreProfiler.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -2,7 +2,7 @@ using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace MvcEfSample.Models
+namespace mvc_ef_demo.Models
 {
     public class Article
     {

@@ -1,4 +1,10 @@
 ﻿{
   "storage": "CoreProfiler.Storages.JsonProfilingStorage, CoreProfiler",
-  "filters": [ ]
+  "filters": [
+    {
+      "key":  "filtered",
+      "type": "contain",
+      "value": "to_be_filtered"
+    }
+  ]
 }

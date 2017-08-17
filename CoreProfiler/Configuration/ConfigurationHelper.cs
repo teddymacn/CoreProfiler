@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Configuration;
+using System;
 
 namespace CoreProfiler.Configuration
 {
@@ -13,6 +14,7 @@ namespace CoreProfiler.Configuration
         public static IConfiguration GetConfiguration()
         {
             return new ConfigurationBuilder()
+               .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
                .AddJsonFile("coreprofiler.json", true)
                .Build();
         }

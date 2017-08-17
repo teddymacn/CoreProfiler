@@ -1,13 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.26730.3
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "CoreProfiler.Web", "CoreProfiler.Web\CoreProfiler.Web.xproj", "{BDEE9C7A-8726-42E8-8F05-7C01742D2B13}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CoreProfiler.Web", "CoreProfiler.Web\CoreProfiler.Web.csproj", "{BDEE9C7A-8726-42E8-8F05-7C01742D2B13}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "CoreProfiler", "CoreProfiler\CoreProfiler.xproj", "{C35EAD84-86BD-4E9A-B2D2-9077F633A901}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CoreProfiler", "CoreProfiler\CoreProfiler.csproj", "{C35EAD84-86BD-4E9A-B2D2-9077F633A901}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "CoreProfiler.Wcf", "CoreProfiler.Wcf\CoreProfiler.Wcf.xproj", "{AF1A24B3-168F-4C4C-8F85-4B5D4F66341C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CoreProfiler.Wcf", "CoreProfiler.Wcf\CoreProfiler.Wcf.csproj", "{AF1A24B3-168F-4C4C-8F85-4B5D4F66341C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -30,5 +30,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {BC1C097F-66D3-4D42-8C3D-31969E1A96F6}
 	EndGlobalSection
 EndGlobal

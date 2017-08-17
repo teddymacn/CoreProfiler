@@ -1,7 +1,7 @@
 CoreProfiler
 ============
 
-CoreProfiler is a light weight performance profiling library for .NET Core.
+CoreProfiler is a light weight performance profiling library for .NET Core. (Supports .Net Core 2.0 since v1.1)
 
 CoreProfiler is a port of [NanoProfiler](https://github.com/englishtown/nanoprofiler) by the same author of NanoProfiler.
 
@@ -15,7 +15,6 @@ How to compile the source code?
 - Download latest version of dotnet cli from [https://github.com/dotnet/cli](https://github.com/dotnet/cli)
 - git clone https://github.com/teddymacn/CoreProfiler.git
 - Run .\build.ps1
-- You could also use [Visual Studio Code](https://code.visualstudio.com/) to open the project folders for editting
 
 License terms
 -------------
@@ -41,9 +40,9 @@ Basic usage
 
 	app.UseCoreProfiler(drillDown:true); //if drillDown=true, try to drill down child requests from external apps when view profiling results
 
-- Add a [coreprofiler.json](https://github.com/teddymacn/CoreProfiler/blob/master/mvc-ef-demo/coreprofiler.json) file to your project and make sure it is in [the include of publishOptions in your project.json](https://github.com/teddymacn/CoreProfiler/blob/master/mvc-ef-demo/project.json#L28).
+- Add a [coreprofiler.json](https://github.com/teddymacn/CoreProfiler/blob/master/mvc-ef-demo/coreprofiler.json) file to your project and make sure it is copied to the output.
 
-- If you want to profile DB queries, you need to wrap DbConnection instances like for example: [here](https://github.com/teddymacn/CoreProfiler/blob/master/mvc-ef-demo/Startup.cs#L24).
+- If you want to profile DB queries, you need to wrap DbConnection instances like for example: [here](https://github.com/teddymacn/CoreProfiler/blob/master/mvc-ef-demo/Startup.cs).
 
 - In the coreprofiler.json file, you could configure some options of the profiling, including specifying custom configuration provider, log provider and persistence storage for persisting, profiling filters, number of profiling results to be kept in memory for display, etc.
 
