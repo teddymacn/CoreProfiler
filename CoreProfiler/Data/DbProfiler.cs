@@ -92,15 +92,33 @@ namespace CoreProfiler.Data
                 return null;
             }
             
-            if (executeType == DbExecuteType.Reader)
-                throw new NotSupportedException("ExecuteDbCommandAsync doesn't support executing data reader.");
-
             if (command == null)
             {
                 return await execute();
             }
 
             var dbTiming = new DbTiming(_profiler, executeType, command) { Tags = tags };
+
+            if (executeType == DbExecuteType.Reader)
+            {
+                // for ExecuteReader
+                var dataReader = (await execute()) as DbDataReader;
+                if (dataReader == null)
+                {
+                    // if not executing reader, stop the sql timing right after execute()
+                    dbTiming.Stop();
+                    return null;
+                }
+
+                dbTiming.FirstFetch();
+                var reader = dataReader as ProfiledDbDataReader ??
+                    new ProfiledDbDataReader(dataReader, this);
+                _inProgressDataReaders[reader] = dbTiming;
+
+                return reader;
+            }
+
+            // for ExecuteNonQuery and ExecuteScalar
             try
             {
                 return await execute();
@@ -128,20 +146,6 @@ namespace CoreProfiler.Data
             {
                 dbTiming.Stop();
             }
-        }
-
-        #endregion
-
-        #region IDbProfiler Members
-
-        void IDbProfiler.ExecuteDbCommand(DbExecuteType executeType, DbCommand command, Func<DbDataReader> execute, TagCollection tags)
-        {
-            ExecuteDbCommand(executeType, command, execute, tags);
-        }
-
-        void IDbProfiler.DataReaderFinished(DbDataReader dataReader)
-        {
-            DataReaderFinished(dataReader);
         }
 
         #endregion

@@ -50,6 +50,12 @@ namespace mvc_ef_demo.Controllers
                 // test profiling execute command asyncrhonously
                 await dbContext.Database.ExecuteSqlCommandAsync("select * from Articles");
 
+                var task1 = dbContext.FindAsync<Article>(100);
+                var task2 = dbContext.FindAsync<Article>(101);
+
+                await task1;
+                await task2;
+
                 using (ProfilingSession.Current.Step("Render View"))
                 {
                     return View();

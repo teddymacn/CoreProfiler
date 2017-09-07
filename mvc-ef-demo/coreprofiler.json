@@ -8,7 +8,7 @@
     },
     {
       "key": "static files",
-      "value": "ico,jpg,js,css",
+      "value": "ico,jpg,js,css,svg,json,ttf,woff,woff2,eot",
       "type": "CoreProfiler.ProfilingFilters.FileExtensionProfilingFilter, CoreProfiler"
     }
   ]

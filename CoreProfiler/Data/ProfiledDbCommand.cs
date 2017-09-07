@@ -299,6 +299,29 @@ namespace CoreProfiler.Data
             base.Dispose(disposing);
         }
 
+        protected override async Task<DbDataReader> ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+        {
+            var dbProfiler = _getDbProfiler();
+            if (dbProfiler == null) return await _command.ExecuteReaderAsync(behavior, cancellationToken);
+
+            var result = await dbProfiler.ExecuteDbCommandAsync(
+                DbExecuteType.Reader
+                , _command
+                , async () => await _command.ExecuteReaderAsync(behavior, cancellationToken)
+                , Tags);
+
+            var reader = result as DbDataReader;
+            if (reader == null) return null;
+
+            var profiledReader = reader as ProfiledDbDataReader;
+            if (profiledReader != null)
+            {
+                return profiledReader;
+            }
+
+            return new ProfiledDbDataReader(reader, dbProfiler);
+        }
+
         /// <summary>
         /// Executes NonQuery.
         /// </summary>
