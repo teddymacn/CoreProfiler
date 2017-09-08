@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
 using System.Net.Http;
+using System.Web;
 
 namespace CoreProfiler.Web
 {
@@ -88,6 +89,15 @@ namespace CoreProfiler.Web
             }
             
             var path = context.Request.Path.ToString().TrimEnd('/');
+
+            // generate baseViewPath
+            string baseViewPath = null;
+            var posStart = path.IndexOf(ViewUrl, StringComparison.OrdinalIgnoreCase);
+            if (posStart < 0)
+                posStart = path.IndexOf(ViewUrlNano, StringComparison.OrdinalIgnoreCase);
+            if (posStart >= 0)
+                baseViewPath = path.Substring(0, posStart) + ViewUrl;
+
             if (path.EndsWith("/coreprofiler-resources/icons"))
             {
                 context.Response.ContentType = "image/png";
@@ -153,13 +163,27 @@ namespace CoreProfiler.Web
                 sb.Append("</head");
                 sb.Append("<body>");
                 sb.Append(ViewResultIndexHeaderHtml);
-                
+
+                var tagFilter = context.Request.Query["tag"];
+                if (!string.IsNullOrWhiteSpace(tagFilter))
+                {
+                    sb.Append("<div><strong>Filtered by tag:</strong> ");
+                    sb.Append(tagFilter);
+                    sb.Append("<br/><br /></div>");
+                }
+
                 sb.Append("<table>");
                 sb.Append("<tr><th class=\"nowrap\">Time (UTC)</th><th class=\"nowrap\">Duration (ms)</th><th>Url</th></tr>");
                 var latestResults = ProfilingSession.CircularBuffer.OrderByDescending(r => r.Started);
                 var i = 0;
                 foreach (var result in latestResults)
                 {
+                    if (!string.IsNullOrWhiteSpace(tagFilter) &&
+                        (result.Tags == null || !result.Tags.Contains<string>(tagFilter, StringComparer.OrdinalIgnoreCase)))
+                    {
+                        continue;
+                    }
+
                     sb.Append("<tr");
                     if ((i++) % 2 == 1)
                     {
@@ -169,7 +193,9 @@ namespace CoreProfiler.Web
                     sb.Append(result.Started.ToString("yyyy-MM-ddTHH:mm:ss.FFF"));
                     sb.Append("</td><td class=\"nowrap\">");
                     sb.Append(result.DurationMilliseconds);
-                    sb.Append("</td><td><a href=\"view/");
+                    sb.Append("</td><td><a href=\"");
+                    sb.Append(baseViewPath);
+                    sb.Append("/");
                     sb.Append(result.Id.ToString());
                     sb.Append("\" target=\"_blank\">");
                     sb.Append(result.Name.Replace("\r\n", " "));
@@ -245,7 +271,7 @@ namespace CoreProfiler.Web
                     // print summary
                     sb.Append("<ul>");
                     sb.Append("<li class=\"summary\">");
-                    PrintDrillUpLink(sb, result);
+                    PrintDrillUpLink(sb, result, baseViewPath);
                     sb.Append(result.Name.Replace("\r\n", " "));
                     sb.Append("</li>");
                     sb.Append("<li class=\"summary\">");
@@ -280,7 +306,7 @@ namespace CoreProfiler.Web
                     if (result.Tags != null && result.Tags.Any())
                     {
                         sb.Append("<b>tags: </b>");
-                        sb.Append(string.Join(", ", result.Tags));
+                        sb.Append(string.Join(", ", result.Tags.Select(t => string.Format("<a href=\"{2}?tag={0}\">{1}</a>", HttpUtility.UrlEncode(t), t, baseViewPath))));
                         sb.Append(" &nbsp; ");
                     }
                     sb.Append("</li>");
@@ -303,7 +329,7 @@ namespace CoreProfiler.Web
 
                     // print timings
                     sb.Append("<ul class=\"timing\">");
-                    PrintTimings(result, result.Id, sb, factor);
+                    PrintTimings(result, result.Id, sb, factor, baseViewPath);
                     sb.Append("");
                     sb.Append("</ul>");
                     sb.Append("</div>");
@@ -403,16 +429,16 @@ namespace CoreProfiler.Web
         
         #region Private Methods
         
-        private void PrintTimings(ITimingSession session, Guid parentId, StringBuilder sb, double factor)
+        private void PrintTimings(ITimingSession session, Guid parentId, StringBuilder sb, double factor, string baseViewPath)
         {
             var timings = session.Timings.Where(s => s.ParentId == parentId);
             foreach (var timing in timings)
             {
-                PrintTiming(session, timing, sb, factor);
+                PrintTiming(session, timing, sb, factor, baseViewPath);
             }
         }
 
-        private void PrintTiming(ITimingSession session, ITiming timing, StringBuilder sb, double factor)
+        private void PrintTiming(ITimingSession session, ITiming timing, StringBuilder sb, double factor, string baseViewPath)
         {
             sb.Append("<li><span class=\"timing\" style=\"padding-left: ");
             var start = Math.Floor(timing.StartMilliseconds*factor);
@@ -450,18 +476,18 @@ namespace CoreProfiler.Web
                 sb.Append(timing.Id.ToString());
                 sb.Append("\">");
                 PrintDataLink(sb, timing);
-                PrintDrillDownLink(sb, timing);
+                PrintDrillDownLink(sb, timing, baseViewPath);
                 sb.Append(WebUtility.HtmlEncode(timing.Name.Replace("\r\n", " ")));
                 sb.Append("</label>");
                 sb.Append("<ul>");
-                PrintTimings(session, timing.Id, sb, factor);
+                PrintTimings(session, timing.Id, sb, factor, baseViewPath);
                 sb.Append("</ul>");
             }
             else
             {
                 sb.Append("<span class=\"leaf\">");
                 PrintDataLink(sb, timing);
-                PrintDrillDownLink(sb, timing);
+                PrintDrillDownLink(sb, timing, baseViewPath);
                 sb.Append(WebUtility.HtmlEncode(timing.Name.Replace("\r\n", " ")));
                 sb.Append("</span>");
             }
@@ -479,7 +505,7 @@ namespace CoreProfiler.Web
             sb.Append("').style.display='block';\" class=\"openModal\">data</a>] ");
         }
 
-        private void PrintDrillDownLink(StringBuilder sb, ITiming timing)
+        private void PrintDrillDownLink(StringBuilder sb, ITiming timing, string baseViewPath)
         {
             if (timing.Data == null || !timing.Data.ContainsKey("correlationId")) return;
 
@@ -498,12 +524,14 @@ namespace CoreProfiler.Web
 
             if (!drillDownSessionId.HasValue) return;
 
-            sb.Append("[<a href=\"./");
+            sb.Append("[<a href=\"");
+            sb.Append(baseViewPath);
+            sb.Append("/");
             sb.Append(drillDownSessionId);
             sb.Append("\">drill down</a>] ");
         }
 
-        private void PrintDrillUpLink(StringBuilder sb, ITimingSession session)
+        private void PrintDrillUpLink(StringBuilder sb, ITimingSession session, string baseViewPath)
         {
             if (session.Data == null || !session.Data.ContainsKey("correlationId")) return;
 
@@ -522,7 +550,9 @@ namespace CoreProfiler.Web
 
             if (!drillUpSessionId.HasValue) return;
 
-            sb.Append("[<a href=\"./");
+            sb.Append("[<a href=\"");
+            sb.Append(baseViewPath);
+            sb.Append("/");
             sb.Append(drillUpSessionId);
             sb.Append("\">drill up</a>] ");
         }

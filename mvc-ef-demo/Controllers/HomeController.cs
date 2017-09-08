@@ -23,6 +23,8 @@ namespace mvc_ef_demo.Controllers
 
         public async Task<ActionResult> Index()
         {
+            ProfilingSession.Current.AddTag("index");
+
             using (ProfilingSession.Current.Step("Handle Request - /"))
             {
                 Article[] articles;
