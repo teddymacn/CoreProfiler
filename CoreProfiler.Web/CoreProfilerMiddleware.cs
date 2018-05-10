@@ -98,6 +98,9 @@ namespace CoreProfiler.Web
             if (posStart >= 0)
                 baseViewPath = path.Substring(0, posStart) + ViewUrl;
 
+            // prepend pathbase if specified
+            baseViewPath = context.Request.PathBase + baseViewPath;
+
             if (path.EndsWith("/coreprofiler-resources/icons"))
             {
                 context.Response.ContentType = "image/png";
