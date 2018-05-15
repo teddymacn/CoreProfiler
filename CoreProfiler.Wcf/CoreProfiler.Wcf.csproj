@@ -11,7 +11,7 @@
     <PackageTags>coreclr;profiling;.netcore;coreprofiler;miniprofiler;nanoprofiler;performance;timing;profiler;wcf</PackageTags>
     <PackageProjectUrl>https://github.com/teddymacn/coreprofiler</PackageProjectUrl>
     <PackageLicenseUrl>https://mit-license.org/</PackageLicenseUrl>
-    <Version>1.1.3</Version>
+    <Version>1.1.4</Version>
     <Product>CoreProfiler.Wcf</Product>
   </PropertyGroup>
 
