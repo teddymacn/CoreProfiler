@@ -84,8 +84,22 @@ namespace CoreProfiler.Web
             // only supports GET method for view results
             if (context.Request.Method != "GET")
             {
-                await _next.Invoke(context);
-                return;
+				try
+				{
+					await _next.Invoke(context);
+				}
+				catch (System.Exception)
+				{
+					// stop and save profiling results on error
+					using (ProfilingSession.Current.Step("Stop on Error")) { }
+
+					throw;
+				}
+				finally
+				{
+					ProfilingSession.Stop();
+				}
+				return;
             }
             
             var path = context.Request.Path.ToString().TrimEnd('/');
